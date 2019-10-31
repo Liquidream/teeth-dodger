@@ -61,13 +61,50 @@ end
 function draw_level(num)
   local levelNum = num or storage.currLevel
   -- todo: read pixel data for level
-  spritesheet("spritesheet")
-  
+  spritesheet("spritesheet")  
   use_font("main-font")
+
+  draw_mouth(3, 3)
+  draw_mouth(2, 2)
+  draw_mouth(1, 1)
+
  
   pprint("TODO: Everything!", 30,50, 18,29)
 
 end
+
+
+function draw_mouth(num, level)
+  local mw=703
+  local mh=479
+
+  pal()
+
+  -- calc pos/scale
+  local t2 = _t+level*10
+  local dw = mw/level
+  local dh = (mh/level) + sin(t2/100)*100/level
+  local offx = sin(t2/100)*10/level
+  local offy = sin(t2/80)*10/level
+
+  -- change col, based on depth level
+  local cols = {
+    { 38 },
+    { 39 },
+    { 40 }
+  }
+  pal(38, cols[level][1])
+
+  sspr(0,0, mw,mh, 
+      GAME_WIDTH/2-dw/2 + offx,
+      GAME_HEIGHT/2-dh/2 + offy, 
+      dw,dh)
+
+  --spr(0, -40,-20, 22,15)
+end
+
+
+
 
 -- pprint, centered
 function pprintc(text, y, col1, col2, col3)
