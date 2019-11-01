@@ -101,7 +101,7 @@ function draw_mouth(num, level)
   for l=1,2 do
     for t=1,8 do
       local x = offx + t*twidth + (t-1)*gap
-      local y = offy + (l==1 and 0 or 80)
+      local y = GAME_HEIGHT/2-dh/2 + offy + (mh/level/2-dh/2) + (l==1 and 0 or 80)
       -- draw tooth
       rectfill(x,y, x+twidth, y+twidth*2, t_cols[level][1])
     end
