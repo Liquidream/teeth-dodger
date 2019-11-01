@@ -16,7 +16,7 @@ end
 -- draw the actual game 
 -- (including the title screen)
 function draw_game()
-  cls()
+  cls(5)
   
   -- set default pprint style
   printp(
@@ -96,12 +96,18 @@ function draw_mouth(num, level)
     { 12 },
     { 41 }
   }
-  local twidth = 32
-  local gap = (GAME_WIDTH-twidth*8)/8
+  local num_teeth = 8
+  local gap = 8
+  --local gap = ((GAME_WIDTH-twidth*8)/8)/level
+  local twidth = ((GAME_WIDTH-(gap*num_teeth))/num_teeth)/level
+  --local twidth = mw/level
   for l=1,2 do
     for t=1,8 do
-      local x = offx + t*twidth + (t-1)*gap
-      local y = GAME_HEIGHT/2-dh/2 + offy + (mh/level/2-dh/2) + (l==1 and 0 or 80)
+      --local t_offx = 
+      local x = (t-1)*twidth + gap/2 + (t-1)*gap  
+                + (GAME_WIDTH/2 - GAME_WIDTH/level/2)
+      local y = (l==1 and 0 or 180)
+                + (GAME_HEIGHT/2 - GAME_HEIGHT/level/2)
       -- draw tooth
       rectfill(x,y, x+twidth, y+twidth*2, t_cols[level][1])
     end
@@ -117,10 +123,10 @@ function draw_mouth(num, level)
   }
   pal(38, m_cols[level][1])
 
-  sspr(0,0, mw,mh, 
-      GAME_WIDTH/2-dw/2 + offx,
-      GAME_HEIGHT/2-dh/2 + offy, 
-      dw,dh)
+  -- sspr(0,0, mw,mh, 
+  --     GAME_WIDTH/2-dw/2 + offx,
+  --     GAME_HEIGHT/2-dh/2 + offy, 
+  --     dw,dh)
 
   --spr(0, -40,-20, 22,15)
 end
