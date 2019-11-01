@@ -82,18 +82,40 @@ function draw_mouth(num, level)
 
   -- calc pos/scale
   local t2 = _t+level*10
-  local dw = mw/level
-  local dh = (mh/level) + sin(t2/100)*100/level
-  local offx = sin(t2/100)*10/level
-  local offy = sin(t2/80)*10/level
+  local dw = mw/level + cos(t2/100)*20/level
+  local dh = (mh/level) + sin(t2/100)*20/level
+  --local dh = (mh/level)
+  --local dh = (mh/level) + sin(t2/100)*100/level
+  local offx = sin(t2/100)*2/level
+  local offy = sin(t2/80)*2/level
+
+  -- draw teeth
+  srand(num)
+  local t_cols = {
+    { 47 },
+    { 12 },
+    { 41 }
+  }
+  local twidth = 32
+  local gap = (GAME_WIDTH-twidth*8)/8
+  for l=1,2 do
+    for t=1,8 do
+      local x = offx + t*twidth + (t-1)*gap
+      local y = offy + (l==1 and 0 or 80)
+      -- draw tooth
+      rectfill(x,y, x+twidth, y+twidth*2, t_cols[level][1])
+    end
+  end
+
+  
 
   -- change col, based on depth level
-  local cols = {
+  local m_cols = {
     { 38 },
     { 39 },
     { 40 }
   }
-  pal(38, cols[level][1])
+  pal(38, m_cols[level][1])
 
   sspr(0,0, mw,mh, 
       GAME_WIDTH/2-dw/2 + offx,
