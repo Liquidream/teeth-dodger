@@ -64,10 +64,7 @@ require("draw")
 
 
 function love.load()
-  init_data()
-  init_sugarcoat()  
-  load_assets()
-  init_input()
+  init_game()
 end
 
 function love.update(dt)

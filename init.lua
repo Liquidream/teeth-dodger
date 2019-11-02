@@ -2,8 +2,57 @@ local Sounds = require 'sounds'
 
 _t=0
 
--- all particle systems
-pSystems = {}
+mouths = {}
+pSystems = {} -- all particle systems
+
+
+function init_game()
+  init_data()
+  init_sugarcoat()  
+  load_assets()
+  init_input()
+
+  -- create the initial set of mouths/teeth
+  for i=1,3 do
+    local newMouth = createMouth(i)
+    table.insert( mouths, newMouth )
+  end
+end
+
+
+function createMouth(num)
+  log("in createMouth(num)"..num)
+  srand(num)
+  local mouth = {
+    level = num,
+    -- x = 
+    -- y = 
+    openAmount = 100,
+    upperTeeth = {},
+    lowerTeeth = {},
+  }
+  -- generate UPPER teeth  
+  for t=1,8 do
+    -- create tooth
+    --  > height can ben between 0-4 (opposite tooth must fit or be <, no overlap)
+    mouth.upperTeeth[t] = {
+      height = irnd(5),
+      --type = irnd(2)
+    }
+  end
+  -- generate LOWER teeth  
+  for t=1,8 do
+    -- create tooth
+    --  > height can ben between 0-4 (opposite tooth must fit or be <, no overlap)
+    mouth.lowerTeeth[t] = {
+      height = irnd(mouth.upperTeeth[t].height + 1),
+      --type = irnd(2)
+    }
+  end
+ 
+  return mouth
+end
+
 
 function init_sugarcoat()
   init_sugar("Teeth-Dodger", GAME_WIDTH, GAME_HEIGHT, GAME_SCALE)

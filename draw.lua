@@ -64,9 +64,14 @@ function draw_level(num)
   spritesheet("spritesheet")  
   use_font("main-font")
 
-  draw_mouth(3, 3)
-  draw_mouth(2, 2)
-  draw_mouth(1, 1)
+  -- draw mouths/teeth
+  for i=1,#mouths do
+    draw_mouth(mouths[i], i)
+  end
+
+  -- draw_mouth(3, 3)
+  -- draw_mouth(2, 2)
+  -- draw_mouth(1, 1)
 
  
   pprint("TODO: Everything!", 30,50, 18,29)
@@ -74,44 +79,57 @@ function draw_level(num)
 end
 
 
-function draw_mouth(num, level)
+function draw_mouth(mouth, level)
   local mw=703
   local mh=479
 
   pal()
+  local t_cols = {
+      { 47 },
+      { 12 },
+      { 41 }
+    }
 
   -- calc pos/scale
   local t2 = _t+level*10
   local dw = mw/level + cos(t2/100)*20/level
   local dh = (mh/level) + sin(t2/100)*20/level
-  --local dh = (mh/level)
-  --local dh = (mh/level) + sin(t2/100)*100/level
   local offx = sin(t2/100)*2/level
   local offy = sin(t2/80)*2/level
 
-  -- draw teeth
-  srand(num)
-  local t_cols = {
-    { 47 },
-    { 12 },
-    { 41 }
-  }
   local num_teeth = 8
   local gap = 8
-  --local gap = ((GAME_WIDTH-twidth*8)/8)/level
   local twidth = ((GAME_WIDTH-(gap*num_teeth))/num_teeth)/level
-  --local twidth = mw/level
-  for l=1,2 do
-    for t=1,8 do
-      --local t_offx = 
-      local x = (t-1)*twidth + gap/2 + (t-1)*gap  
-                + (GAME_WIDTH/2 - GAME_WIDTH/level/2)
-      local y = (l==1 and 0 or 180)
-                + (GAME_HEIGHT/2 - GAME_HEIGHT/level/2)
-      -- draw tooth
-      rectfill(x,y, x+twidth, y+twidth*2, t_cols[level][1])
-    end
+  
+  -- draw UPPER teeth
+  for ut_idx = 1,#mouth.upperTeeth do    
+    local x = (ut_idx-1)*twidth + gap/2 + (ut_idx-1)*gap  
+              + (GAME_WIDTH/2 - GAME_WIDTH/level/2)
+    local y = 0 + (GAME_HEIGHT/2 - GAME_HEIGHT/level/2)
+    -- draw tooth
+    rectfill(x,y, x+twidth, y+twidth*2, t_cols[level][1])
   end
+
+
+  -- srand(num)
+  -- local t_cols = {
+  --   { 47 },
+  --   { 12 },
+  --   { 41 }
+  -- }
+  -- local num_teeth = 8
+  -- local gap = 8
+  -- local twidth = ((GAME_WIDTH-(gap*num_teeth))/num_teeth)/level
+  -- for l=1,2 do
+  --   for t=1,8 do
+  --     local x = (t-1)*twidth + gap/2 + (t-1)*gap  
+  --               + (GAME_WIDTH/2 - GAME_WIDTH/level/2)
+  --     local y = (l==1 and 0 or 180)
+  --               + (GAME_HEIGHT/2 - GAME_HEIGHT/level/2)
+  --     -- draw tooth
+  --     rectfill(x,y, x+twidth, y+twidth*2, t_cols[level][1])
+  --   end
+  -- end
 
   
 
