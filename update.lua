@@ -32,6 +32,7 @@ function update_game(dt)
   elseif gameState == GAME_STATE.LVL_PLAY then
     update_player(dt)
     game_time = game_time + 1
+    update_mouths()
   
   elseif gameState == GAME_STATE.LVL_END then
     -- update player animation
@@ -54,6 +55,24 @@ function update_game(dt)
     if _t%5==0 then
       makeParticles(rnd(GAME_WIDTH), rnd(GAME_HEIGHT), rnd(2)<1 and COL_FINISH or COL_PINK)
     end
+  end
+end
+
+function update_mouths()
+  -- update mouths/teeth
+  for _,mouth in pairs(mouths) do
+    mouth.level = mouth.level - 0.01
+  end
+
+  -- new mouth?
+  if mouths[1].level < 0 then
+    -- kill old mouth
+    mouths[1] = nil
+    -- shift other mouths up
+    mouths[1] = mouths[2]
+    mouths[2] = mouths[3]
+    -- create a new mouth
+    mouths[3] = createMouth(3)
   end
 end
 

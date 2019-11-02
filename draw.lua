@@ -66,7 +66,7 @@ function draw_level(num)
 
   -- draw mouths/teeth
   for i=#mouths,1,-1 do
-    draw_mouth(mouths[i], i)
+    draw_mouth(mouths[i], i, 0,0)
   end
 
   -- draw_mouth(3, 3)
@@ -79,15 +79,18 @@ function draw_level(num)
 end
 
 
-function draw_mouth(mouth, level, x, y)
+function draw_mouth(mouth)
   local mw=703
   local mh=479
+  local level = mouth.level
+  --log("level = "..tostring(level))
 
   pal()
   local t_cols = {
-      { 47 },
+    [0]={ 47 },
       { 12 },
-      { 41 }
+      { 41 },
+      { 0 }
     }
 
   -- calc pos/scale
@@ -113,8 +116,8 @@ function draw_mouth(mouth, level, x, y)
     + (GAME_WIDTH/2 - mwidth/level/2)
     local ty = (_t%60)/level + (GAME_HEIGHT/2 - mheight/level/2)
     -- draw tooth
-    rect(tx,ty, tx+twidth, ty+(10*5)/level, 8)
-    rectfill(tx,ty, tx+twidth, ty+((theight/10)*tooth.height)/level, t_cols[level][1])
+    if DEBUG_MODE then rect(tx,ty, tx+twidth, ty+(10*5)/level, 8) end
+    rectfill(tx,ty, tx+twidth, ty+((theight/10)*tooth.height)/level, t_cols[flr(level)][1])
   end
   -- draw LOWER teeth
   for t_idx = 1,#mouth.lowerTeeth do    
@@ -123,10 +126,11 @@ function draw_mouth(mouth, level, x, y)
               + (GAME_WIDTH/2 - mwidth/level/2)
     local ty = (mheight-_t%60)/level + (GAME_HEIGHT/2 - mheight/level/2)
     -- draw tooth
-    rect(tx-1,ty, tx+twidth+1, ty-(10*5)/level, 7)
-    rectfill(tx,ty, tx+twidth, ty-((theight/10)*tooth.height)/level, t_cols[level][1])
+    if DEBUG_MODE then rect(tx-1,ty, tx+twidth+1, ty-(10*5)/level, 7) end
+    rectfill(tx,ty, tx+twidth, ty-((theight/10)*tooth.height)/level, t_cols[flr(level)][1])
   end
 
+  --rect(x,y, x+mwidth/level, y+mheight/level, 35)
 
   -- srand(num)
   -- local t_cols = {
@@ -152,11 +156,12 @@ function draw_mouth(mouth, level, x, y)
 
   -- change col, based on depth level
   local m_cols = {
-    { 38 },
+    [0]={ 38 },
     { 39 },
-    { 40 }
+    { 40 },
+    { 0 }
   }
-  pal(38, m_cols[level][1])
+  pal(38, m_cols[flr(level)][1])
 
   -- sspr(0,0, mw,mh, 
   --     GAME_WIDTH/2-dw/2 + offx,

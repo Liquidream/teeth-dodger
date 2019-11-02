@@ -15,14 +15,18 @@ function init_game()
   -- create the initial set of mouths/teeth
   for i=1,3 do
     local newMouth = createMouth(i)
-    table.insert( mouths, newMouth )
+    mouths[i] = newMouth
   end
 end
 
+local mouthCount=0
 
 function createMouth(num)
   log("in createMouth(num)"..num)
-  srand(num)
+  
+  srand(mouthCount)
+  mouthCount = mouthCount+1
+
   local mouth = {
     level = num,
     -- x = 
@@ -36,7 +40,7 @@ function createMouth(num)
     -- create tooth
     --  > height can ben between 0-4 (opposite tooth must fit or be <, no overlap)
     mouth.upperTeeth[t] = {
-      height = irnd(7)+1,
+      height = irnd(7)+1
       --type = irnd(2)
     }
   end
