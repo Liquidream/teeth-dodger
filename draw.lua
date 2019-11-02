@@ -65,7 +65,7 @@ function draw_level(num)
   use_font("main-font")
 
   -- draw mouths/teeth
-  for i=1,#mouths do
+  for i=#mouths,1,-1 do
     draw_mouth(mouths[i], i)
   end
 
@@ -102,10 +102,18 @@ function draw_mouth(mouth, level)
   local twidth = ((GAME_WIDTH-(gap*num_teeth))/num_teeth)/level
   
   -- draw UPPER teeth
-  for ut_idx = 1,#mouth.upperTeeth do    
-    local x = (ut_idx-1)*twidth + gap/2 + (ut_idx-1)*gap  
+  for t_idx = 1,#mouth.upperTeeth do    
+    local x = (t_idx-1)*twidth + gap/2 + (t_idx-1)*gap  
               + (GAME_WIDTH/2 - GAME_WIDTH/level/2)
     local y = 0 + (GAME_HEIGHT/2 - GAME_HEIGHT/level/2)
+    -- draw tooth
+    rectfill(x,y, x+twidth, y+twidth*2, t_cols[level][1])
+  end
+  -- draw LOWER teeth
+  for t_idx = 1,#mouth.lowerTeeth do    
+    local x = (t_idx-1)*twidth + gap/2 + (t_idx-1)*gap  
+              + (GAME_WIDTH/2 - GAME_WIDTH/level/2)
+    local y = 180/level + (GAME_HEIGHT/2 - GAME_HEIGHT/level/2)
     -- draw tooth
     rectfill(x,y, x+twidth, y+twidth*2, t_cols[level][1])
   end
