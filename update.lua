@@ -64,7 +64,7 @@ function update_mouths()
     -- zoom in
     --mouth.level = mouth.level - 0.01
     -- close/open
-    mouth.openAmount = 0--(_t%60)
+    mouth.openAmount = 60--(_t%60)
     --mouth.openAmount = _t%60
   end
 

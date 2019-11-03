@@ -80,58 +80,67 @@ end
 
 
 function draw_mouth(mouth)
-  local mw=703
-  local mh=479
+  local mw=463 --703
+  local mh=223 --479
   local level = mouth.level
   --log("level = "..tostring(level))
 
   pal()
   local t_cols = {
-    [0]={ 47 },
-      { 47 },
-      { 12 },
-      { 41 },
-      { 0 }
-    }
+  [0]={ 47 },
+    { 47 },
+    { 12 },
+    { 41 },
+    { 0 }
+  }
 
-  -- calc pos/scale
-  local t2 = _t+level*10
-  local dw = mw/level + cos(t2/100)*20/level
-  local dh = (mh/level) + sin(t2/100)*20/level
-  local offx = sin(t2/100)*2/level
-  local offy = sin(t2/80)*2/level
-
+  
   local num_teeth = 8
   local gap = 8  
   local mwidth = GAME_WIDTH - 100  -- mouth width (at 100%)
   local mheight = GAME_HEIGHT - 50 -- (same, height-wise)
+  local mheight_curr = (mheight-mouth.openAmount)/level
   local twidth = ((mwidth-(gap*num_teeth))/num_teeth)/level
   local theight = mheight / 2  
   -- local mheight_open = mheight
   -- local mheight_closed = (mheight-60)
   local col_type = flr(level)
   --local col_type = mouth.col_type
+  local ttop = (60-mouth.openAmount)/level + (GAME_HEIGHT/2 - mheight/level/2)
+  local tbottom = (mheight - (60-mouth.openAmount))/level + (GAME_HEIGHT/2 - mheight/level/2)
+  local tleft = gap/2 + (GAME_WIDTH/2 - mwidth/level/2)
+  local tright = tleft+mwidth/level - gap
+
+  -- calc movement pos/scale of mouth/lips
+  local t2 = _t+level*10
+  local dw = (mw-50)/level + cos(t2/100)*10/level
+  local dh = (mh-95)/level + sin(t2/100)*10/level
+  local offx = sin(t2/100)*2/level
+  local offy = sin(t2/80)*2/level
 
   -- draw UPPER teeth
   for t_idx = 1,#mouth.upperTeeth do    
     local tooth = mouth.upperTeeth[t_idx]
     local tx = (t_idx-1)*twidth + gap/2 + (t_idx-1)*gap  
-    + (GAME_WIDTH/2 - mwidth/level/2)
+                  + (GAME_WIDTH/2 - mwidth/level/2)
     local ty = (60-mouth.openAmount)/level + (GAME_HEIGHT/2 - mheight/level/2)
     -- draw tooth
-    if DEBUG_MODE then rect(tx,ty, tx+twidth, ty+(10*5)/level, 8) end
+    --if DEBUG_MODE then rect(tx,ty, tx+twidth, ty+(10*5)/level, 8) end
     rectfill(tx,ty, tx+twidth, ty+((theight/10)*tooth.height)/level, t_cols[col_type][1])
   end
   -- draw LOWER teeth
   for t_idx = 1,#mouth.lowerTeeth do    
     local tooth = mouth.lowerTeeth[t_idx]
     local tx = (t_idx-1)*twidth + gap/2 + (t_idx-1)*gap  
-              + (GAME_WIDTH/2 - mwidth/level/2)
+                  + (GAME_WIDTH/2 - mwidth/level/2)
     local ty = (mheight - (60-mouth.openAmount))/level + (GAME_HEIGHT/2 - mheight/level/2)
     -- draw tooth
-    if DEBUG_MODE then rect(tx-1,ty, tx+twidth+1, ty-(10*5)/level, 7) end
+    --if DEBUG_MODE then rect(tx-1,ty, tx+twidth+1, ty-(10*5)/level, 7) end
     rectfill(tx,ty, tx+twidth, ty-((theight/10)*tooth.height)/level, t_cols[col_type][1])
   end
+
+  -- draw mouth/teeth outline
+  if DEBUG_MODE then rect(tleft,ttop, tright, tbottom, 7) end
 
 
   -- change col, based on depth level
@@ -142,12 +151,32 @@ function draw_mouth(mouth)
     { 40 },
     { 0 }
   }
+  
+  local mleft = GAME_WIDTH/2-dw/2 + offx
+  local mtop = GAME_HEIGHT/2-dh/2 + offy +1
+  local mright = mleft + dw -2
+  local mbottom = mtop + dh -2
+  
+  --rectfill(0,0,GAME_WIDTH,mtop,m_cols[col_type][1])
+  
+
   pal(38, m_cols[col_type][1])
 
   sspr(0,0, mw,mh, 
-      GAME_WIDTH/2-dw/2 + offx,
-      GAME_HEIGHT/2-dh/2 + offy, 
-      dw,dh)
+  mleft,
+  mtop, 
+  dw,dh)
+  
+      pset(mleft,mtop,47)
+      pset(mright,mbottom,47)
+    
+
+  -- sspr(0,0, mw,mh, 
+  --     GAME_WIDTH/2-dw/2 + offx,
+  --     GAME_HEIGHT/2-dh/2 + offy, 
+  --     dw,dh)
+
+      --464,224
 
   --spr(0, -40,-20, 22,15)
 end
