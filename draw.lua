@@ -111,18 +111,12 @@ function draw_mouth(mouth)
   local tleft = gap/2 + (GAME_WIDTH/2 - mwidth/level/2)
   local tright = tleft+mwidth/level - gap
 
-  -- calc movement pos/scale of mouth/lips
-  local t2 = _t+level*10
-  local dw = (mw-50)/level + cos(t2/100)*10/level
-  local dh = (mh-95)/level + sin(t2/100)*10/level
-  local offx = sin(t2/100)*2/level
-  local offy = sin(t2/80)*2/level
-
+  
   -- draw UPPER teeth
   for t_idx = 1,#mouth.upperTeeth do    
     local tooth = mouth.upperTeeth[t_idx]
     local tx = (t_idx-1)*twidth + gap/2 + (t_idx-1)*gap  
-                  + (GAME_WIDTH/2 - mwidth/level/2)
+    + (GAME_WIDTH/2 - mwidth/level/2)
     local ty = (60-mouth.openAmount)/level + (GAME_HEIGHT/2 - mheight/level/2)
     -- draw tooth
     --if DEBUG_MODE then rect(tx,ty, tx+twidth, ty+(10*5)/level, 8) end
@@ -132,17 +126,20 @@ function draw_mouth(mouth)
   for t_idx = 1,#mouth.lowerTeeth do    
     local tooth = mouth.lowerTeeth[t_idx]
     local tx = (t_idx-1)*twidth + gap/2 + (t_idx-1)*gap  
-                  + (GAME_WIDTH/2 - mwidth/level/2)
+    + (GAME_WIDTH/2 - mwidth/level/2)
     local ty = (mheight - (60-mouth.openAmount))/level + (GAME_HEIGHT/2 - mheight/level/2)
     -- draw tooth
     --if DEBUG_MODE then rect(tx-1,ty, tx+twidth+1, ty-(10*5)/level, 7) end
     rectfill(tx,ty, tx+twidth, ty-((theight/10)*tooth.height)/level, t_cols[col_type][1])
   end
-
+  
   -- draw mouth/teeth outline
   if DEBUG_MODE then rect(tleft,ttop, tright, tbottom, 7) end
 
-
+  
+  -- -------------------------------
+  -- draw mouth/gums
+  -- 
   -- change col, based on depth level
   local m_cols = {
     [0]={ 38 },
@@ -151,24 +148,39 @@ function draw_mouth(mouth)
     { 40 },
     { 0 }
   }
+  -- calc movement pos/scale of mouth/lips
+  local t2 = _t+level*10
+  local dw = (mw-50)/level + cos(t2/100)*10/level
+  local dh = (mh-95)/level + sin(t2/100)*10/level
+  -- local dw = (mw-50)/level + cos(t2/100)*10/level
+  -- local dh = (mh-95)/level + sin(t2/100)*10/level
+  local offx = sin(t2/100)*2/level
+  local offy = sin(t2/80)*2/level
   
   local mleft = GAME_WIDTH/2-dw/2 + offx
-  local mtop = GAME_HEIGHT/2-dh/2 + offy +1
+  local mtop = ttop + sin(t2/100)*2/level +(3/level)
   local mright = mleft + dw -2
   local mbottom = mtop + dh -2
+  local mheight_spr = tbottom-ttop
+  -- local mleft = GAME_WIDTH/2-dw/2 + offx
+  -- local mtop = GAME_HEIGHT/2-dh/2 + offy +1
+  -- local mright = mleft + dw -2
+  -- local mbottom = mtop + dh -2
   
-  --rectfill(0,0,GAME_WIDTH,mtop,m_cols[col_type][1])
-  
+  rectfill(0,0,GAME_WIDTH,mtop,m_cols[col_type][1])
+  rectfill(0,0,mleft,mtop+mheight_spr,m_cols[col_type][1])
+  rectfill(mright,0,GAME_WIDTH,mtop+mheight_spr,m_cols[col_type][1])
+  rectfill(0, mtop+mheight_spr-1, GAME_WIDTH, GAME_HEIGHT, m_cols[col_type][1])  
 
   pal(38, m_cols[col_type][1])
 
   sspr(0,0, mw,mh, 
   mleft,
   mtop, 
-  dw,dh)
+  dw,mheight_spr)
   
-      pset(mleft,mtop,47)
-      pset(mright,mbottom,47)
+      -- pset(mleft,mtop,47)
+      -- pset(mright,mtop+mheight_spr,47)
     
 
   -- sspr(0,0, mw,mh, 
