@@ -106,10 +106,9 @@ function draw_mouth(mouth)
   local mwidth = GAME_WIDTH - 100  -- mouth width (at 100%)
   local mheight = GAME_HEIGHT - 50 -- (same, height-wise)
   local twidth = ((mwidth-(gap*num_teeth))/num_teeth)/level
-  local theight = mheight / 2
-  
-  local mheight_open = mheight
-  local mheight_closed = (mheight-60)
+  local theight = mheight / 2  
+  -- local mheight_open = mheight
+  -- local mheight_closed = (mheight-60)
   local col_type = flr(level)
   --local col_type = mouth.col_type
 
@@ -118,7 +117,7 @@ function draw_mouth(mouth)
     local tooth = mouth.upperTeeth[t_idx]
     local tx = (t_idx-1)*twidth + gap/2 + (t_idx-1)*gap  
     + (GAME_WIDTH/2 - mwidth/level/2)
-    local ty = (mouth.openAmount)/level + (GAME_HEIGHT/2 - mheight/level/2)
+    local ty = (60-mouth.openAmount)/level + (GAME_HEIGHT/2 - mheight/level/2)
     -- draw tooth
     if DEBUG_MODE then rect(tx,ty, tx+twidth, ty+(10*5)/level, 8) end
     rectfill(tx,ty, tx+twidth, ty+((theight/10)*tooth.height)/level, t_cols[col_type][1])
@@ -128,7 +127,7 @@ function draw_mouth(mouth)
     local tooth = mouth.lowerTeeth[t_idx]
     local tx = (t_idx-1)*twidth + gap/2 + (t_idx-1)*gap  
               + (GAME_WIDTH/2 - mwidth/level/2)
-    local ty = (mheight + mouth.openAmount)/level + (GAME_HEIGHT/2 - mheight/level/2)
+    local ty = (mheight - (60-mouth.openAmount))/level + (GAME_HEIGHT/2 - mheight/level/2)
     -- draw tooth
     if DEBUG_MODE then rect(tx-1,ty, tx+twidth+1, ty-(10*5)/level, 7) end
     rectfill(tx,ty, tx+twidth, ty-((theight/10)*tooth.height)/level, t_cols[col_type][1])

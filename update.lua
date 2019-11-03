@@ -62,9 +62,10 @@ function update_mouths()
   -- update mouths/teeth
   for _,mouth in pairs(mouths) do
     -- zoom in
-    mouth.level = mouth.level - 0.01
+    --mouth.level = mouth.level - 0.01
     -- close/open
     mouth.openAmount = 0--(_t%60)
+    --mouth.openAmount = _t%60
   end
 
   -- new mouth?
