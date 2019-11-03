@@ -13,7 +13,7 @@ function init_game()
   init_input()
 
   -- create the initial set of mouths/teeth
-  for i=1,3 do
+  for i=1,4 do
     local newMouth = createMouth(i)
     mouths[i] = newMouth
   end
@@ -22,8 +22,6 @@ end
 local mouthCount=0
 
 function createMouth(num)
-  log("in createMouth(num)"..num)
-  
   srand(mouthCount)
   mouthCount = mouthCount+1
 
@@ -31,7 +29,7 @@ function createMouth(num)
     level = num,
     -- x = 
     -- y = 
-    openAmount = 100,
+    openAmount = 60, --(0-60, at 100% size)
     upperTeeth = {},
     lowerTeeth = {},
   }

@@ -16,7 +16,7 @@ end
 -- draw the actual game 
 -- (including the title screen)
 function draw_game()
-  cls(5)
+  cls() --5
   
   -- set default pprint style
   printp(
@@ -88,6 +88,7 @@ function draw_mouth(mouth)
   pal()
   local t_cols = {
     [0]={ 47 },
+      { 47 },
       { 12 },
       { 41 },
       { 0 }
@@ -107,6 +108,8 @@ function draw_mouth(mouth)
   local twidth = ((mwidth-(gap*num_teeth))/num_teeth)/level
   local theight = mheight / 2
   
+  local mheight_open = mheight
+  local mheight_closed = (mheight-60)
   --local mheight = 180/level
 
   -- draw UPPER teeth
@@ -114,7 +117,8 @@ function draw_mouth(mouth)
     local tooth = mouth.upperTeeth[t_idx]
     local tx = (t_idx-1)*twidth + gap/2 + (t_idx-1)*gap  
     + (GAME_WIDTH/2 - mwidth/level/2)
-    local ty = (_t%60)/level + (GAME_HEIGHT/2 - mheight/level/2)
+    local ty = (mouth.openAmount)/level + (GAME_HEIGHT/2 - mheight/level/2)
+    --local ty = (_t%60)/level + (GAME_HEIGHT/2 - mheight/level/2)
     -- draw tooth
     if DEBUG_MODE then rect(tx,ty, tx+twidth, ty+(10*5)/level, 8) end
     rectfill(tx,ty, tx+twidth, ty+((theight/10)*tooth.height)/level, t_cols[flr(level)][1])
@@ -124,49 +128,28 @@ function draw_mouth(mouth)
     local tooth = mouth.lowerTeeth[t_idx]
     local tx = (t_idx-1)*twidth + gap/2 + (t_idx-1)*gap  
               + (GAME_WIDTH/2 - mwidth/level/2)
-    local ty = (mheight-_t%60)/level + (GAME_HEIGHT/2 - mheight/level/2)
+    local ty = (mheight + mouth.openAmount)/level + (GAME_HEIGHT/2 - mheight/level/2)
+    --local ty = (mheight-_t%60)/level + (GAME_HEIGHT/2 - mheight/level/2)
     -- draw tooth
     if DEBUG_MODE then rect(tx-1,ty, tx+twidth+1, ty-(10*5)/level, 7) end
     rectfill(tx,ty, tx+twidth, ty-((theight/10)*tooth.height)/level, t_cols[flr(level)][1])
   end
 
-  --rect(x,y, x+mwidth/level, y+mheight/level, 35)
-
-  -- srand(num)
-  -- local t_cols = {
-  --   { 47 },
-  --   { 12 },
-  --   { 41 }
-  -- }
-  -- local num_teeth = 8
-  -- local gap = 8
-  -- local twidth = ((GAME_WIDTH-(gap*num_teeth))/num_teeth)/level
-  -- for l=1,2 do
-  --   for t=1,8 do
-  --     local x = (t-1)*twidth + gap/2 + (t-1)*gap  
-  --               + (GAME_WIDTH/2 - GAME_WIDTH/level/2)
-  --     local y = (l==1 and 0 or 180)
-  --               + (GAME_HEIGHT/2 - GAME_HEIGHT/level/2)
-  --     -- draw tooth
-  --     rectfill(x,y, x+twidth, y+twidth*2, t_cols[level][1])
-  --   end
-  -- end
-
-  
 
   -- change col, based on depth level
   local m_cols = {
     [0]={ 38 },
+    { 38 },
     { 39 },
     { 40 },
     { 0 }
   }
   pal(38, m_cols[flr(level)][1])
 
-  -- sspr(0,0, mw,mh, 
-  --     GAME_WIDTH/2-dw/2 + offx,
-  --     GAME_HEIGHT/2-dh/2 + offy, 
-  --     dw,dh)
+  sspr(0,0, mw,mh, 
+      GAME_WIDTH/2-dw/2 + offx,
+      GAME_HEIGHT/2-dh/2 + offy, 
+      dw,dh)
 
   --spr(0, -40,-20, 22,15)
 end
