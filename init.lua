@@ -20,10 +20,11 @@ function init_game()
 end
 
 local mouthCount=0
+local mouthType=1
+local mouthTypeCount=1
 
 function createMouth(num)
   srand(mouthCount)
-  mouthCount = mouthCount+1
 
   local mouth = {
     level = num,
@@ -32,6 +33,7 @@ function createMouth(num)
     openAmount = 60, --(0-60, at 100% size)
     upperTeeth = {},
     lowerTeeth = {},
+    col_type = mouthType
   }
   -- generate UPPER teeth  
   for t=1,8 do
@@ -51,6 +53,13 @@ function createMouth(num)
       --type = irnd(2)
     }
   end
+
+  -- next one  
+  mouthCount = mouthCount+1
+  -- bounce mouthType from 1-3 (e.g. 1,2,3,2,1,2,3...)
+  mouthTypeCount = mouthTypeCount % 4
+  mouthTypeCount = mouthTypeCount + 1
+  mouthType = mouthTypeCount - (mouthTypeCount > 3 and mouthTypeCount % 3 + 1 or 0)
  
   return mouth
 end

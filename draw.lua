@@ -121,7 +121,7 @@ function draw_mouth(mouth)
     --local ty = (_t%60)/level + (GAME_HEIGHT/2 - mheight/level/2)
     -- draw tooth
     if DEBUG_MODE then rect(tx,ty, tx+twidth, ty+(10*5)/level, 8) end
-    rectfill(tx,ty, tx+twidth, ty+((theight/10)*tooth.height)/level, t_cols[flr(level)][1])
+    rectfill(tx,ty, tx+twidth, ty+((theight/10)*tooth.height)/level, t_cols[mouth.col_type][1])
   end
   -- draw LOWER teeth
   for t_idx = 1,#mouth.lowerTeeth do    
@@ -132,7 +132,7 @@ function draw_mouth(mouth)
     --local ty = (mheight-_t%60)/level + (GAME_HEIGHT/2 - mheight/level/2)
     -- draw tooth
     if DEBUG_MODE then rect(tx-1,ty, tx+twidth+1, ty-(10*5)/level, 7) end
-    rectfill(tx,ty, tx+twidth, ty-((theight/10)*tooth.height)/level, t_cols[flr(level)][1])
+    rectfill(tx,ty, tx+twidth, ty-((theight/10)*tooth.height)/level, t_cols[mouth.col_type][1])
   end
 
 
@@ -144,7 +144,7 @@ function draw_mouth(mouth)
     { 40 },
     { 0 }
   }
-  pal(38, m_cols[flr(level)][1])
+  pal(38, m_cols[mouth.col_type][1])
 
   sspr(0,0, mw,mh, 
       GAME_WIDTH/2-dw/2 + offx,
