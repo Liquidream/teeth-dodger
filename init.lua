@@ -30,10 +30,12 @@ function createMouth(num)
     level = num,
     -- x = 
     -- y = 
-    openAmount = 60, --(0-60, at 100% size)
+    openAmount = (mouthCount%6)*20, --(0-60, at 100% size)
+    --openAmount = 60, --(0-60, at 100% size)
     upperTeeth = {},
     lowerTeeth = {},
-    col_type = mouthType
+    col_type = mouthType,
+    dir = 1 -- mouth open close direction
   }
   -- generate UPPER teeth  
   for t=1,8 do

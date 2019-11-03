@@ -74,7 +74,7 @@ function draw_level(num)
   -- draw_mouth(1, 1)
 
  
-  pprint("TODO: Everything!", 30,50, 18,29)
+  --pprint("TODO: Everything!", 30,50, 18,29)
 
 end
 
@@ -121,6 +121,7 @@ function draw_mouth(mouth)
     -- draw tooth
     --if DEBUG_MODE then rect(tx,ty, tx+twidth, ty+(10*5)/level, 8) end
     rectfill(tx,ty, tx+twidth, ty+((theight/10)*tooth.height)/level, t_cols[col_type][1])
+    rect(tx,ty, tx+twidth, ty+((theight/10)*tooth.height)/level, 0)
   end
   -- draw LOWER teeth
   for t_idx = 1,#mouth.lowerTeeth do    
@@ -131,6 +132,7 @@ function draw_mouth(mouth)
     -- draw tooth
     --if DEBUG_MODE then rect(tx-1,ty, tx+twidth+1, ty-(10*5)/level, 7) end
     rectfill(tx,ty, tx+twidth, ty-((theight/10)*tooth.height)/level, t_cols[col_type][1])
+    rect(tx,ty, tx+twidth, ty-((theight/10)*tooth.height)/level, 0)
   end
   
   -- draw mouth/teeth outline

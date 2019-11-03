@@ -62,10 +62,16 @@ function update_mouths()
   -- update mouths/teeth
   for _,mouth in pairs(mouths) do
     -- zoom in
-    mouth.level = mouth.level - 0.02
+    mouth.level = mouth.level - 0.01
     -- close/open
-    mouth.openAmount = 60--(_t%60)
+    mouth.openAmount = mouth.openAmount + mouth.dir    
+    --mouth.openAmount = 60--(_t%60)
     --mouth.openAmount = _t%60
+
+    if (mouth.dir>0 and mouth.openAmount > 60)
+      or (mouth.dir<0 and mouth.openAmount < 0) then 
+      mouth.dir = mouth.dir*-1
+    end
   end
 
   -- new mouth?
