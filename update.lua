@@ -167,17 +167,19 @@ function update_player(dt)
    not player.moving
    and not player.fell then
     -- left
-    if btn(0) then
-      init_player_move(0.5, -1, 0)      
+    if btnp(0) then
+      player.t_index = max(player.t_index-1, 1)
+      --init_player_move(0.5, -1, 0)
     end
-    if btn(1) then         -- right
-      init_player_move(0, 1, 0)
+    if btnp(1) then         -- right
+      player.t_index = min(player.t_index+1, NUM_TEETH+1)
+      --init_player_move(0, 1, 0)
     end
-    if btn(2) then         -- up
-      init_player_move(0.75, 0, -1)
+    if btnp(2) then         -- up
+      --init_player_move(0.75, 0, -1)
     end
-    if btn(3) then         -- down
-      init_player_move(0.25, 0, 1)
+    if btnp(3) then         -- down
+      --init_player_move(0.25, 0, 1)
     end
   end
 

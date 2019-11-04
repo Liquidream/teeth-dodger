@@ -60,46 +60,37 @@ end
 
 function draw_level(num)
   local levelNum = num or storage.currLevel
-  -- todo: read pixel data for level
-  spritesheet("spritesheet")  
+
   use_font("main-font")
 
   -- draw mouths/teeth
   for i=#mouths,1,-1 do
-    draw_mouth(mouths[i], i, 0,0)
+    draw_mouth(mouths[i], i)
   end
 
-  -- draw_mouth(3, 3)
-  -- draw_mouth(2, 2)
-  -- draw_mouth(1, 1)
-
-  draw_player()  
  
   --pprint("TODO: Everything!", 30,50, 18,29)
 
 end
 
-function draw_player()  
+function draw_player(x,y)  
   pal()
   palt(0, false)
 
   if surface_exists("photo") then
-    local x = 50
-    local y = 50
-    local G = 50
     -- draw bg frame in player's colour
-    --rectfill(x-1, y-1, x+G+1, y+G+1, player.col)
+    rectfill(x-1, y-1, x+player.size, y+player.size, 4)
     -- draw the actual photo
     spritesheet("photo")
     local w,h = surface_size("photo")
-    sspr(0, 0, w, h, x, y,  G, G)
+    sspr(0, 0, w, h, x, y, player.size, player.size)
   end
 
   palt()
 end
 
 
-function draw_mouth(mouth)
+function draw_mouth(mouth, layer)
   local mw=463 --703
   local mh=223 --479
   local level = mouth.level
@@ -151,10 +142,18 @@ function draw_mouth(mouth)
     local tx = offx+ (t_idx-1)*twidth + gap/2 + (t_idx-1)*gap  
     + (GAME_WIDTH/2 - mwidth/level/2)
     local ty = offy+ (mheight - (60-mouth.openAmount))/level + (GAME_HEIGHT/2 - mheight/level/2)
+    local curr_ttop = ty-((theight/10)*tooth.height)/level
     -- draw tooth
     --if DEBUG_MODE then rect(tx-1,ty, tx+twidth+1, ty-(10*5)/level, 7) end
-    rectfill(tx,ty, tx+twidth, ty-((theight/10)*tooth.height)/level, t_cols[col_type][1])
-    rect(tx,ty, tx+twidth, ty-((theight/10)*tooth.height)/level, 0)
+    rectfill(tx,ty, tx+twidth, curr_ttop, t_cols[col_type][1])
+    rect(tx,ty, tx+twidth, curr_ttop, 0)
+
+    
+    -- draw player? (only on closest mouth)
+    if layer == 1 and player.t_index == t_idx then
+      draw_player(tx, curr_ttop-player.size)
+    end
+    
   end
   
   -- draw mouth/teeth outline
@@ -182,22 +181,22 @@ function draw_mouth(mouth)
   local mright = mleft + dw -2
   local mbottom = mtop + dh -2
   local mheight_spr = tbottom-ttop
-  -- local mleft = GAME_WIDTH/2-dw/2 + offx
-  -- local mtop = GAME_HEIGHT/2-dh/2 + offy +1
-  -- local mright = mleft + dw -2
-  -- local mbottom = mtop + dh -2
-  
+
+
+
   rectfill(0,0,GAME_WIDTH,mtop,m_cols[col_type][1])
   rectfill(0,0,mleft,mtop+mheight_spr,m_cols[col_type][1])
   rectfill(mright,0,GAME_WIDTH,mtop+mheight_spr,m_cols[col_type][1])
   rectfill(0, mtop+mheight_spr-1, GAME_WIDTH, GAME_HEIGHT, m_cols[col_type][1])  
 
+  spritesheet("spritesheet")  
+
   pal(38, m_cols[col_type][1])
 
   sspr(0,0, mw,mh, 
-  mleft,
-  mtop, 
-  dw,mheight_spr)  
+          mleft,
+          mtop, 
+          dw,mheight_spr)  
 end
 
 
