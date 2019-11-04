@@ -60,17 +60,27 @@ end
 
 function update_mouths()
   -- update mouths/teeth
-  for _,mouth in pairs(mouths) do
+  for i=1,3 do
+    local mouth = mouths[i]
+  --for _,mouth in pairs(mouths) do
+    
     -- zoom in
-    mouth.level = mouth.level - 0.01
-    -- close/open
-    mouth.openAmount = mouth.openAmount + mouth.dir    
-    --mouth.openAmount = 60--(_t%60)
-    --mouth.openAmount = _t%60
+    --mouth.level = mouth.level - 0.01
+    
+    -- open/close all but current mouth
+    if i == 1 then
+      -- current mouth
+      mouth.openAmount = MHEIGHT_OPEN
+    else
+      -- close/open
+      mouth.openAmount = mouth.openAmount + mouth.dir
+      --mouth.openAmount = 60--(_t%60)
+      --mouth.openAmount = _t%60
 
-    if (mouth.dir>0 and mouth.openAmount > 60)
-      or (mouth.dir<0 and mouth.openAmount < 0) then 
-      mouth.dir = mouth.dir*-1
+      if (mouth.dir>0 and mouth.openAmount > 60)
+        or (mouth.dir<0 and mouth.openAmount < 0) then 
+        mouth.dir = mouth.dir*-1
+      end
     end
   end
 

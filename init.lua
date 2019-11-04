@@ -1,9 +1,14 @@
-local Sounds = require 'sounds'
 
+-- globals
 _t=0
-
 mouths = {}
 pSystems = {} -- all particle systems
+
+-- locals
+local Sounds = require 'sounds'
+local mouthCount=0
+local mouthType=1
+local mouthTypeCount=1
 
 
 function init_game()
@@ -19,9 +24,6 @@ function init_game()
   end
 end
 
-local mouthCount=0
-local mouthType=1
-local mouthTypeCount=1
 
 function createMouth(num)
   srand(mouthCount)
