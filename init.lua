@@ -58,6 +58,10 @@ function createMouth(num)
     }
   end
 
+  -- now make a GAP in one (or more) of the teeth
+  local t_idx = irnd(#mouth.lowerTeeth)+1
+  mouth.lowerTeeth[t_idx].height = mouth.lowerTeeth[t_idx].height - 1
+
   -- next one  
   mouthCount = mouthCount+1
   -- bounce mouthType from 1-3 (e.g. 1,2,3,2,1,2,3...)

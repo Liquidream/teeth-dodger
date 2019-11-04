@@ -68,7 +68,7 @@ function update_mouths()
     --mouth.level = mouth.level - 0.01
     
     -- open/close all but current mouth
-    if i == 1 then
+    if i == 1 and _t%225<100 then
       -- current mouth
       mouth.openAmount = MHEIGHT_OPEN
     else
