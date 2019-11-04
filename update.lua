@@ -58,6 +58,7 @@ function update_game(dt)
   end
 end
 
+
 function update_mouths()
   -- update mouths/teeth
   for i=1,3 do
@@ -72,11 +73,9 @@ function update_mouths()
       -- current mouth
       mouth.openAmount = MHEIGHT_OPEN
     else
-      -- close/open
+      -- closing/opening mouth
       mouth.openAmount = mouth.openAmount + mouth.dir
-      --mouth.openAmount = 60--(_t%60)
-      --mouth.openAmount = _t%60
-
+      -- switch dir?
       if (mouth.dir>0 and mouth.openAmount > 60)
         or (mouth.dir<0 and mouth.openAmount < 0) then 
         mouth.dir = mouth.dir*-1
@@ -84,7 +83,7 @@ function update_mouths()
     end
   end
 
-  -- new mouth?
+  -- time to create new mouth?
   if mouths[1].level < 0 then
     -- kill old mouth
     mouths[1] = nil
@@ -96,6 +95,7 @@ function update_mouths()
     mouths[4] = createMouth(4)
   end
 end
+
 
 function levelUp()  
   -- init next level

@@ -73,9 +73,29 @@ function draw_level(num)
   -- draw_mouth(2, 2)
   -- draw_mouth(1, 1)
 
+  draw_player()  
  
   --pprint("TODO: Everything!", 30,50, 18,29)
 
+end
+
+function draw_player()  
+  pal()
+  palt(0, false)
+
+  if surface_exists("photo") then
+    local x = 50
+    local y = 50
+    local G = 50
+    -- draw bg frame in player's colour
+    --rectfill(x-1, y-1, x+G+1, y+G+1, player.col)
+    -- draw the actual photo
+    spritesheet("photo")
+    local w,h = surface_size("photo")
+    sspr(0, 0, w, h, x, y,  G, G)
+  end
+
+  palt()
 end
 
 
@@ -103,13 +123,12 @@ function draw_mouth(mouth)
   local twidth = ((mwidth-(gap*num_teeth))/num_teeth)/level
   local theight = mheight / 2    
   local col_type = flr(level)
-  --local col_type = mouth.col_type
   local ttop = (60-mouth.openAmount)/level + (GAME_HEIGHT/2 - mheight/level/2)
   local tbottom = (mheight - (60-mouth.openAmount))/level + (GAME_HEIGHT/2 - mheight/level/2)
   local tleft = gap/2 + (GAME_WIDTH/2 - mwidth/level/2)
   local tright = tleft+mwidth/level - gap
 
-  
+
   local t2 = _t+level*10
   local offx = sin(t2/100)*2/level
   local offy = sin(t2/80)*2/level
@@ -178,8 +197,7 @@ function draw_mouth(mouth)
   sspr(0,0, mw,mh, 
   mleft,
   mtop, 
-  dw,mheight_spr)
-  
+  dw,mheight_spr)  
 end
 
 

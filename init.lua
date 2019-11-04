@@ -87,6 +87,17 @@ function init_sugarcoat()
   screen_render_integer_scale(false)
   set_frame_waiting(60)
 
+   -- Get User info  
+   me = castle.user.getMe()    
+   my_id = me.userId
+   my_name = me.username
+   -- get photo
+   if me.photoUrl then
+     load_png("photo", me.photoUrl, ak54) 
+   end
+   
+
+
   -- TEMP: jump straight to game
   gameState = GAME_STATE.LVL_PLAY
   use_palette(ak54)  
@@ -98,13 +109,7 @@ function init_sugarcoat()
   -- splashStartTime = t()
 end
 
-function init_data()
-  -- Get User info
-  network.async(function()
-    user = castle.user.getMe()
-    my_id = user.userId
-    my_name = user.username
-  end)
+function init_data() 
   -- Get saved data...
   -- Time taken since last reset/win
   storage.getUserValue("currTime", 0)
