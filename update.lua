@@ -70,18 +70,18 @@ end
 
 
 function update_mouths(dt)
-  log("Mouths ------")
   -- update mouths/teeth
+  log("Mouths ------")
   for i=1,3 do
     local mouth = mouths[i]
   --for _,mouth in pairs(mouths) do
     
     log(">> ["..i.."] = "..mouth.level)
-    -- zoom in
+    -- constant zoom in
     --mouth.level = mouth.level - 0.01
         
     -- open/close all but current mouth
-    if i == 1 and _t%225<100 then
+    if i == 1 and _t%425<300 then
       -- current mouth
       mouth.openAmount = MHEIGHT_OPEN
     else
@@ -95,7 +95,10 @@ function update_mouths(dt)
     end
 
     -- check for closed mouth player state
-    if i == 1 and mouth.openAmount == MHEIGHT_CLOSED then
+    if i == 1 
+     and mouth.openAmount == MHEIGHT_CLOSED
+     and not mouth.zooming 
+    then
       -- check player position (e.g. in a gap?)
       if mouth.lowerTeeth[player.t_index].gap then
         log("#mouths = "..#mouths)
@@ -107,6 +110,8 @@ function update_mouths(dt)
           local tween = tween.new(2,  mouths[i], {level= mouths[i].level-1}, 'inOutQuad')
           table.insert( tweens, tween )
         end
+        -- make sure we don't trip this again
+        mouth.zooming = true
       else
         log("player dead")
       end

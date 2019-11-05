@@ -62,8 +62,8 @@ function createMouth(num)
 
   -- now make a GAP in one (or more) of the teeth
   local t_idx = irnd(#mouth.lowerTeeth)+1
-  mouth.upperTeeth[t_idx].height = mouth.lowerTeeth[t_idx].height - 2
-  mouth.lowerTeeth[t_idx].height = mouth.lowerTeeth[t_idx].height - 3
+  mouth.upperTeeth[t_idx].height = mouth.upperTeeth[t_idx].height - 1.5
+  mouth.lowerTeeth[t_idx].height = mouth.lowerTeeth[t_idx].height - 1.5
   mouth.lowerTeeth[t_idx].gap = true
 
   -- next one  
