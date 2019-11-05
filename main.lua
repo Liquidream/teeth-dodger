@@ -55,12 +55,14 @@ end
 
 require("sugarcoat/sugarcoat")
 sugar.utility.using_package(sugar.S, true)
+tween = require 'lib/tween'
 require("common")
 require("init")
 require("update")
 require("draw")
 --require("ui_input")
 --require("sprinklez")
+
 
 
 function love.load()

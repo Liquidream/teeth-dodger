@@ -32,7 +32,7 @@ function update_game(dt)
   elseif gameState == GAME_STATE.LVL_PLAY then
     update_player(dt)
     game_time = game_time + 1
-    update_mouths()
+    update_mouths(dt)
   
   elseif gameState == GAME_STATE.LVL_END then
     -- update player animation
@@ -59,7 +59,11 @@ function update_game(dt)
 end
 
 
-function update_mouths()
+local zoom_tweens = nil
+
+function update_mouths(dt)
+
+
   -- update mouths/teeth
   for i=1,3 do
     local mouth = mouths[i]
@@ -67,6 +71,14 @@ function update_mouths()
     
     -- zoom in
     --mouth.level = mouth.level - 0.01
+    
+    -- zoom?
+    if zoom_tweens then
+      local complete = zoom_tweens[i]:update(dt)
+      if complete then
+        zoom_tweens = nil
+      end
+    end
     
     -- open/close all but current mouth
     if i == 1 and _t%225<100 then
@@ -88,6 +100,11 @@ function update_mouths()
       if mouth.lowerTeeth[player.t_index].gap then
         -- player is safe
         log("player safe")
+        -- zoom into next mouth (using tweening!)
+        zoom_tweens = {}
+        for i=1,3 do
+          zoom_tweens[i] = tween.new(2,  mouths[i], {level= mouths[i].level-1}, 'inOutQuad')
+        end
       else
         log("player dead")
       end

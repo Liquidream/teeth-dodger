@@ -79,6 +79,15 @@ levelReady = nil
 -- Helper Functions
 --
 
+function tween_quad_in_out(t) 
+  t=t*2 
+  if t < 1 then 
+    return 0.5 * t*t
+  end
+  
+  return -0.5 * ((t-1) * (t-3) -1) 
+end
+
 -- Re-seed the Random Number Generation
 -- so that if called quickly (sub-seconds)
 -- it'll still be random
