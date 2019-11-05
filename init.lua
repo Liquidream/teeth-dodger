@@ -133,6 +133,10 @@ function init_data()
   storage.getUserValue("currLevel", START_LEVEL)
 end
 
+function addTween(tween)
+  table.insert( tweens, tween )
+end
+
 function resetPlayerProgress()
   -- reset progress
   log("resetting player progress..")

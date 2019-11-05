@@ -71,12 +71,12 @@ end
 
 function update_mouths(dt)
   -- update mouths/teeth
-  log("Mouths ------")
+  --log("Mouths ------")
   for i=1,3 do
     local mouth = mouths[i]
   --for _,mouth in pairs(mouths) do
     
-    log(">> ["..i.."] = "..mouth.level)
+    --log(">> ["..i.."] = "..mouth.level)
     -- constant zoom in
     --mouth.level = mouth.level - 0.01
         
@@ -107,8 +107,9 @@ function update_mouths(dt)
         log("player safe")
         -- zoom into next mouth (using tweening!)
         for i=1,3 do
-          local tween = tween.new(2,  mouths[i], {level= mouths[i].level-1}, 'inOutQuad')
-          table.insert( tweens, tween )
+          addTween(
+            tween.new(2,  mouths[i], {level= mouths[i].level-1}, 'inOutQuad')
+          )
         end
         -- make sure we don't trip this again
         mouth.zooming = true
@@ -200,7 +201,7 @@ function update_player(dt)
    and not player.fell then
     -- left
     if btnp(0) then
-      player.t_index = max(player.t_index-1, 1)
+      player.t_index = max(player.t_index-1, 1)      
     end
     if btnp(1) then         -- right
       player.t_index = min(player.t_index+1, NUM_TEETH+1)

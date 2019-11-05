@@ -73,17 +73,17 @@ function draw_level(num)
 
 end
 
-function draw_player(x,y)  
+function draw_player(x,y,dw,dh)  
   pal()
   palt(0, false)
 
   if surface_exists("photo") then
     -- draw bg frame in player's colour
-    rectfill(x-1, y-1, x+player.size, y+player.size, 4)
+    rectfill(x-1, y-1, x+dw, y+dh, 4)
     -- draw the actual photo
     spritesheet("photo")
     local w,h = surface_size("photo")
-    sspr(0, 0, w, h, x, y, player.size, player.size)
+    sspr(0, 0, w, h, x, y, dw, dh)
   end
 
   palt()
@@ -133,7 +133,7 @@ function draw_mouth(mouth, layer)
     local ty = offy+ (60-mouth.openAmount)/level + (GAME_HEIGHT/2 - mheight/level/2)
     -- draw tooth
     --if DEBUG_MODE then rect(tx,ty, tx+twidth, ty+(10*5)/level, 8) end
-    rectfill(tx,ty, tx+twidth, ty+((theight/10)*tooth.height)/level, tooth.gap and 14 or t_cols[col_type][1] )
+    rectfill(tx,ty, tx+twidth, ty+((theight/10)*tooth.height)/level, t_cols[col_type][1] )
     rect(tx,ty, tx+twidth, ty+((theight/10)*tooth.height)/level, 0)
   end
   -- draw LOWER teeth
@@ -145,13 +145,14 @@ function draw_mouth(mouth, layer)
     local curr_ttop = ty-((theight/10)*tooth.height)/level
     -- draw tooth
     --if DEBUG_MODE then rect(tx-1,ty, tx+twidth+1, ty-(10*5)/level, 7) end
-    rectfill(tx,ty, tx+twidth, curr_ttop, tooth.gap and 14 or t_cols[col_type][1] )
+    rectfill(tx,ty, tx+twidth, curr_ttop, t_cols[col_type][1] )
     rect(tx,ty, tx+twidth, curr_ttop, 0)
 
     
     -- draw player? (only on closest mouth)
     if layer == 1 and player.t_index == t_idx then
-      draw_player(tx+6, curr_ttop-player.size)
+      local size = player.size/level
+      draw_player(tx+6, curr_ttop-size, size, size)
     end
     
   end
@@ -173,13 +174,13 @@ function draw_mouth(mouth, layer)
   }
   
   -- calc movement pos/scale of mouth/lips  
-  local dw = (mw-50)/level + cos(t2/100)*10/level
+  local dw = (mw-0)/level + cos(t2/100)*10/level
   local dh = (mh-95)/level + sin(t2/100)*10/level
   
   local mleft = GAME_WIDTH/2-dw/2 + offx
   local mtop = ttop + sin(t2/100)*2/level +(3/level)
   local mright = mleft + dw -2
-  local mbottom = mtop + dh -2
+  --local mbottom = mtop + dh -2
   local mheight_spr = tbottom-ttop
 
 
@@ -196,7 +197,8 @@ function draw_mouth(mouth, layer)
   sspr(0,0, mw,mh, 
           mleft,
           mtop, 
-          dw,mheight_spr)  
+          dw,
+          mheight_spr)
 end
 
 
