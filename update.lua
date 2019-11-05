@@ -81,6 +81,17 @@ function update_mouths()
         mouth.dir = mouth.dir*-1
       end
     end
+
+    -- check for closed mouth player state
+    if i == 1 and mouth.openAmount == MHEIGHT_CLOSED then
+      -- check player position (e.g. in a gap?)
+      if mouth.lowerTeeth[player.t_index].gap then
+        -- player is safe
+        log("player safe")
+      else
+        log("player dead")
+      end
+    end
   end
 
   -- time to create new mouth?
@@ -162,18 +173,14 @@ end
 
 function update_player(dt)
   -- handle player control/movement
-  if 
-    --love.timer.getTime()-light_start) > MAX_LIGHT_DURATION and
-   not player.moving
+  if not player.moving
    and not player.fell then
     -- left
     if btnp(0) then
       player.t_index = max(player.t_index-1, 1)
-      --init_player_move(0.5, -1, 0)
     end
     if btnp(1) then         -- right
       player.t_index = min(player.t_index+1, NUM_TEETH+1)
-      --init_player_move(0, 1, 0)
     end
     if btnp(2) then         -- up
       --init_player_move(0.75, 0, -1)
@@ -183,53 +190,7 @@ function update_player(dt)
     end
   end
 
-  -- update player move "tweening" frames
-  if player.moveFrameCount then
-    player.x = player.x + player.dx
-    player.y = player.y + player.dy
-    player.moveFrameCount = player.moveFrameCount - 1
-    -- reached new pos?
-    if player.moveFrameCount <= 0 then
-      player.moveFrameCount = nil
-      player.moving = false
-      player.x = player.newX
-      player.y = player.newY
-      player.tx = player.x/TILE_SIZE
-      player.ty = player.y/TILE_SIZE
-      init_anim(player, player.idle_anim)
-      checkTile()
 
-      player.newX = nil
-      player.newY = nil
-      player.wrapX = nil
-      player.wrapY = nil
-    end    
-  end
-
-  -- also check player's tile status regularly
-  -- (as now possible for tile to change!)
-  if _t%5==0 
-   and not player.moveFrameCount
-   and not player.fell then 
-      --checkTile() 
-  end
-
-  -- Crumbling trail (HARD mode only)
-  if storage.difficulty>0 and
-   _t>5*60 and _t%120==0 and (#player.tileHistoryKeys>0 and player.moved) then
-    -- remove trail one-by-one
-    local key = player.tileHistoryKeys[1]
-    player.tileHistory[key] = -0.5
-    table.remove( player.tileHistoryKeys, 1)
-  end
-
-  -- update player animation
-  update_anim(player)
-
-  -- update detail animations
-  for _,m in pairs(monsters) do
-    update_anim(m)
-  end
 end
 
 

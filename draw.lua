@@ -151,7 +151,7 @@ function draw_mouth(mouth, layer)
     
     -- draw player? (only on closest mouth)
     if layer == 1 and player.t_index == t_idx then
-      draw_player(tx, curr_ttop-player.size)
+      draw_player(tx+6, curr_ttop-player.size)
     end
     
   end

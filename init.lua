@@ -53,8 +53,9 @@ function createMouth(num)
     -- create tooth
     --  > height can ben between 0-4 (opposite tooth must fit or be <, no overlap)
     mouth.lowerTeeth[t] = {
-      height = 10 - mouth.upperTeeth[t].height  --irnd(mouth.upperTeeth[t].height + 1),
-      --type = irnd(2)
+      height = 10 - mouth.upperTeeth[t].height,
+      --type = irnd(2),
+      gap = false
     }
   end
 
@@ -62,6 +63,7 @@ function createMouth(num)
   local t_idx = irnd(#mouth.lowerTeeth)+1
   mouth.upperTeeth[t_idx].height = mouth.lowerTeeth[t_idx].height - 2
   mouth.lowerTeeth[t_idx].height = mouth.lowerTeeth[t_idx].height - 3
+  mouth.lowerTeeth[t_idx].gap = true
 
   -- next one  
   mouthCount = mouthCount+1
@@ -211,7 +213,7 @@ function init_player()
     t_index = 6,  -- which tooth is player standing on (1-x, from left-right)
     x = 30,       -- actual screen pos
     y = 30,
-    size = 36,
+    size = 32,
     idle_anim = {60},
     walk_anim_1 = {61,62,62,61},
     walk_anim_2 = {63,64,64,63},
