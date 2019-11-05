@@ -24,6 +24,15 @@ function update_game(dt)
     end
   end
 
+  -- Update all tween animations
+  for key, tween in pairs(tweens) do
+    local complete = tween:update(dt)
+    -- purge completed tweens
+    if complete then
+      table.remove(tweens, key)
+    end
+  end
+  
   if gameState == GAME_STATE.SPLASH then
     -- todo: splash screen
     updateSplash(dt)
@@ -59,7 +68,6 @@ function update_game(dt)
 end
 
 
-local zoom_tweens = nil
 
 function update_mouths(dt)
 
@@ -71,15 +79,7 @@ function update_mouths(dt)
     
     -- zoom in
     --mouth.level = mouth.level - 0.01
-    
-    -- zoom?
-    if zoom_tweens then
-      local complete = zoom_tweens[i]:update(dt)
-      if complete then
-        zoom_tweens = nil
-      end
-    end
-    
+        
     -- open/close all but current mouth
     if i == 1 and _t%225<100 then
       -- current mouth
@@ -101,9 +101,9 @@ function update_mouths(dt)
         -- player is safe
         log("player safe")
         -- zoom into next mouth (using tweening!)
-        zoom_tweens = {}
         for i=1,3 do
-          zoom_tweens[i] = tween.new(2,  mouths[i], {level= mouths[i].level-1}, 'inOutQuad')
+          local tween = tween.new(2,  mouths[i], {level= mouths[i].level-1}, 'inOutQuad')
+          table.insert( tweens, tween )
         end
       else
         log("player dead")

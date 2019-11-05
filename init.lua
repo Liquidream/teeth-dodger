@@ -3,6 +3,7 @@
 _t=0
 mouths = {}
 pSystems = {} -- all particle systems
+tweens = {}
 
 -- locals
 local Sounds = require 'sounds'
