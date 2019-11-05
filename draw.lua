@@ -133,7 +133,7 @@ function draw_mouth(mouth, layer)
     local ty = offy+ (60-mouth.openAmount)/level + (GAME_HEIGHT/2 - mheight/level/2)
     -- draw tooth
     --if DEBUG_MODE then rect(tx,ty, tx+twidth, ty+(10*5)/level, 8) end
-    rectfill(tx,ty, tx+twidth, ty+((theight/10)*tooth.height)/level, t_cols[col_type][1])
+    rectfill(tx,ty, tx+twidth, ty+((theight/10)*tooth.height)/level, tooth.gap and 14 or t_cols[col_type][1] )
     rect(tx,ty, tx+twidth, ty+((theight/10)*tooth.height)/level, 0)
   end
   -- draw LOWER teeth
@@ -145,7 +145,7 @@ function draw_mouth(mouth, layer)
     local curr_ttop = ty-((theight/10)*tooth.height)/level
     -- draw tooth
     --if DEBUG_MODE then rect(tx-1,ty, tx+twidth+1, ty-(10*5)/level, 7) end
-    rectfill(tx,ty, tx+twidth, curr_ttop, t_cols[col_type][1])
+    rectfill(tx,ty, tx+twidth, curr_ttop, tooth.gap and 14 or t_cols[col_type][1] )
     rect(tx,ty, tx+twidth, curr_ttop, 0)
 
     

@@ -70,13 +70,13 @@ end
 
 
 function update_mouths(dt)
-
-
+  log("Mouths ------")
   -- update mouths/teeth
   for i=1,3 do
     local mouth = mouths[i]
   --for _,mouth in pairs(mouths) do
     
+    log(">> ["..i.."] = "..mouth.level)
     -- zoom in
     --mouth.level = mouth.level - 0.01
         
@@ -98,6 +98,8 @@ function update_mouths(dt)
     if i == 1 and mouth.openAmount == MHEIGHT_CLOSED then
       -- check player position (e.g. in a gap?)
       if mouth.lowerTeeth[player.t_index].gap then
+        log("#mouths = "..#mouths)
+        log("#tweens = "..#tweens)
         -- player is safe
         log("player safe")
         -- zoom into next mouth (using tweening!)
@@ -112,15 +114,14 @@ function update_mouths(dt)
   end
 
   -- time to create new mouth?
-  if mouths[1].level < 0 then
+  if mouths[1].level <= 0 then
     -- kill old mouth
     mouths[1] = nil
     -- shift other mouths up
     mouths[1] = mouths[2]
     mouths[2] = mouths[3]
-    mouths[3] = mouths[4]
     -- create a new mouth
-    mouths[4] = createMouth(4)
+    mouths[3] = createMouth(3)
   end
 end
 
