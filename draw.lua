@@ -202,8 +202,6 @@ function draw_mouth(mouth, layer)
 end
 
 
-
-
 -- pprint, centered
 function pprintc(text, y, col1, col2, col3)
     local letterWidth = 6.5
