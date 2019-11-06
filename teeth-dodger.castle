@@ -3,6 +3,6 @@ main: main.lua
 name: 🦷 Teeth Dodger 🦷
 owner: liquidream
 coverImage: cover-image.png
-primaryColor: ffff00
+primaryColor: ee2911
 dimensions: full
-description: Escape being eaten by a monster's MANY layers of teeth + use timing and positioning to avoid being squished
+description: Escape being eaten by a monster's MANY layers of teeth. Use timing and positioning to avoid being squished!
