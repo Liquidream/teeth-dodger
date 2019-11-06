@@ -33,11 +33,12 @@ function createMouth(num)
     level = num,
     -- x = 
     -- y = 
-    openAmount = (mouthCount%6)*20, --(0-60, at 100% size)
+    openAmount = (num==1) and MHEIGHT_OPEN or (mouthCount%6)*20, --(0-60, at 100% size)
     --openAmount = 60, --(0-60, at 100% size)
     upperTeeth = {},
     lowerTeeth = {},
     col_type = mouthType,
+    frame = (num==1) and 0 or irnd(MMAX_FRAMES),
     dir = 1 -- mouth open close direction
   }
   -- generate UPPER teeth  

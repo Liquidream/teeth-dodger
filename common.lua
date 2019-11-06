@@ -14,6 +14,7 @@ MAX_LEVELS = 60
 NUM_TEETH = 7
 MHEIGHT_OPEN = 60
 MHEIGHT_CLOSED = 0
+MMAX_FRAMES = 200
 
 -- particle_cols={
 --   [COL_PINK] = {47,35,26,30},

@@ -79,19 +79,50 @@ function update_mouths(dt)
     --log(">> ["..i.."] = "..mouth.level)
     -- constant zoom in
     --mouth.level = mouth.level - 0.01
+
+    
         
+    if i==2 then log("mouth.frame="..mouth.frame) end
+
     -- open/close all but current mouth
-    if i == 1 and _t%425<300 then
-      -- current mouth
-      mouth.openAmount = MHEIGHT_OPEN
-    else
-      -- closing/opening mouth
-      mouth.openAmount = mouth.openAmount + mouth.dir
-      -- switch dir?
-      if (mouth.dir>0 and mouth.openAmount > 60)
-        or (mouth.dir<0 and mouth.openAmount < 0) then 
-        mouth.dir = mouth.dir*-1
+    if i == 1 then    
+      -- front mouth
+      if mouth.frame == 300 then 
+        addTween(
+            tween.new(0.5, mouth, {openAmount = MHEIGHT_CLOSED}, 'outCirc')
+          )
       end
+      if mouth.frame == 400 then 
+        addTween(
+            tween.new(1, mouth, {openAmount = MHEIGHT_OPEN}, 'outBack')
+          )
+      end
+      mouth.frame = mouth.frame + 1
+      mouth.frame = mouth.frame % 500
+
+    else
+      -- opening/closing mouth
+      if mouth.frame == 50 then 
+        addTween(
+            tween.new(0.5, mouth, {openAmount = MHEIGHT_CLOSED}, 'outCirc')
+          )
+      end
+      if mouth.frame == 150 then 
+        addTween(
+            tween.new(1, mouth, {openAmount = MHEIGHT_OPEN}, 'outBack')
+          )
+      end
+
+      mouth.frame = mouth.frame + 1
+      mouth.frame = mouth.frame % MMAX_FRAMES
+
+      -- -----------------------------------------------------------
+      -- mouth.openAmount = mouth.openAmount + mouth.dir
+      -- -- switch dir?
+      -- if (mouth.dir>0 and mouth.openAmount > 60)
+      --   or (mouth.dir<0 and mouth.openAmount < 0) then 
+      --   mouth.dir = mouth.dir*-1
+      -- end
     end
 
     -- check for closed mouth player state
