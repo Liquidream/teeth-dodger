@@ -82,7 +82,7 @@ function update_mouths(dt)
 
     
         
-    if i==2 then log("mouth.frame="..mouth.frame) end
+    --if i==2 then log("mouth.frame="..mouth.frame) end
 
     -- open/close all but current mouth
     if i == 1 then    
@@ -142,7 +142,9 @@ function update_mouths(dt)
             tween.new(2,  mouths[i], {level= mouths[i].level-1}, 'inOutQuad')
           )
         end
-        -- make sure we don't trip this again
+        -- start the next mouth opening
+        mouths[2].frame = 300
+        -- make sure we don't trip this code again
         mouth.zooming = true
       else
         log("player dead")
