@@ -2,7 +2,7 @@
 --
 -- Constants
 --
-DEBUG_MODE = false
+DEBUG_MODE = true
 GAME_WIDTH = 512  -- 16:9 aspect ratio that fits nicely
 GAME_HEIGHT = 288 -- within the default Castle window size
 GAME_SCALE = 3
@@ -12,7 +12,7 @@ START_LEVEL = 1
 MAX_LEVELS = 60
 
 NUM_TEETH = 7
-MHEIGHT_OPEN = 60
+MHEIGHT_OPEN = 40
 MHEIGHT_CLOSED = 0
 MMAX_FRAMES = 200
 

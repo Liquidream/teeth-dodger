@@ -109,7 +109,7 @@ function draw_mouth(mouth, layer)
   local num_teeth = 8
   local gap = 8  
   local mwidth = GAME_WIDTH - 100  -- mouth width (at 100%)
-  local mheight = GAME_HEIGHT - 50 -- (same, height-wise)
+  local mheight = GAME_HEIGHT - 48 -- (same, height-wise)
   local mheight_curr = (mheight-mouth.openAmount)/level
   local twidth = ((mwidth-(gap*num_teeth))/num_teeth)/level
   local theight = mheight / 2    
@@ -133,8 +133,8 @@ function draw_mouth(mouth, layer)
     local ty = offy+ (60-mouth.openAmount)/level + (GAME_HEIGHT/2 - mheight/level/2)
     -- draw tooth
     --if DEBUG_MODE then rect(tx,ty, tx+twidth, ty+(10*5)/level, 8) end
-    rectfill(tx,ty, tx+twidth, ty+((theight/10)*tooth.height)/level, t_cols[col_type][1] )
-    rect(tx,ty, tx+twidth, ty+((theight/10)*tooth.height)/level, 0)
+    rectfill(tx,0, tx+twidth, ty+((theight/10)*tooth.height)/level, t_cols[col_type][1] )
+    rect(tx,0, tx+twidth, ty+((theight/10)*tooth.height)/level, 0)
   end
   -- draw LOWER teeth
   for t_idx = 1,#mouth.lowerTeeth do    
@@ -145,8 +145,8 @@ function draw_mouth(mouth, layer)
     local curr_ttop = ty-((theight/10)*tooth.height)/level
     -- draw tooth
     --if DEBUG_MODE then rect(tx-1,ty, tx+twidth+1, ty-(10*5)/level, 7) end
-    rectfill(tx,ty, tx+twidth, curr_ttop, t_cols[col_type][1] )
-    rect(tx,ty, tx+twidth, curr_ttop, 0)
+    rectfill(tx,GAME_HEIGHT, tx+twidth, curr_ttop, t_cols[col_type][1] )
+    rect(tx,GAME_HEIGHT, tx+twidth, curr_ttop, 0)
 
     
     -- draw player? (only on closest mouth)
@@ -157,9 +157,6 @@ function draw_mouth(mouth, layer)
     
   end
   
-  -- draw mouth/teeth outline
-  if DEBUG_MODE then rect(tleft,ttop, tright, tbottom, 7) end
-
   
   -- -------------------------------
   -- draw mouth/gums
@@ -178,10 +175,10 @@ function draw_mouth(mouth, layer)
   local dh = (mh-95)/level + sin(t2/100)*10/level
   
   local mleft = GAME_WIDTH/2-dw/2 + offx
-  local mtop = ttop + sin(t2/100)*2/level +(3/level)
+  local mtop = ttop -20 --+ sin(t2/100)*2/level-- +(3/level)
   local mright = mleft + dw -2
   --local mbottom = mtop + dh -2
-  local mheight_spr = tbottom-ttop
+  local mheight_spr = tbottom-ttop + 40
 
 
 
@@ -199,6 +196,11 @@ function draw_mouth(mouth, layer)
           mtop, 
           dw,
           mheight_spr)
+
+  
+  -- draw mouth/teeth outline
+  if DEBUG_MODE then rect(tleft,ttop, tright, tbottom, 7) end
+
 end
 
 

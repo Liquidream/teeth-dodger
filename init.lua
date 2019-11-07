@@ -7,7 +7,7 @@ tweens = {}
 
 -- locals
 local Sounds = require 'sounds'
-local mouthCount=0
+local mouthCount=1
 local mouthType=1
 local mouthTypeCount=1
 
