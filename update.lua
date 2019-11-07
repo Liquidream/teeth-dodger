@@ -127,7 +127,7 @@ function update_mouths(dt)
 
     -- check for closed mouth player state
     if i == 1 
-     and mouth.openAmount == MHEIGHT_CLOSED
+     and mouth.openAmount <= 15 --MHEIGHT_CLOSED
      and not mouth.zooming 
     then
       -- check player position (e.g. in a gap?)
@@ -148,6 +148,7 @@ function update_mouths(dt)
         mouth.zooming = true
       else
         log("player dead")
+        killPlayer()
       end
     end
   end
@@ -164,6 +165,9 @@ function update_mouths(dt)
   end
 end
 
+function killPlayer()
+  player.dead = true
+end
 
 function levelUp()  
   -- init next level

@@ -150,7 +150,10 @@ function draw_mouth(mouth, layer)
 
     
     -- draw player? (only on closest mouth)
-    if layer == 1 and player.t_index == t_idx then
+    if layer == 1 
+     and not player.dead
+     and player.t_index == t_idx 
+    then
       local size = player.size/level
       draw_player(tx+6, curr_ttop-size, size, size)
     end
