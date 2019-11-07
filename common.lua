@@ -2,7 +2,7 @@
 --
 -- Constants
 --
-DEBUG_MODE = true
+DEBUG_MODE = false
 GAME_WIDTH = 512  -- 16:9 aspect ratio that fits nicely
 GAME_HEIGHT = 288 -- within the default Castle window size
 GAME_SCALE = 3

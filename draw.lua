@@ -175,7 +175,7 @@ function draw_mouth(mouth, layer)
   local dh = (mh-95)/level + sin(t2/100)*10/level
   
   local mleft = GAME_WIDTH/2-dw/2 + offx
-  local mtop = ttop -20 --+ sin(t2/100)*2/level-- +(3/level)
+  local mtop = ttop -20 + offy --+ sin(t2/100)*2/level-- +(3/level)
   local mright = mleft + dw -2
   --local mbottom = mtop + dh -2
   local mheight_spr = tbottom-ttop + 40
