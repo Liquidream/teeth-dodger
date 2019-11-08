@@ -5,6 +5,7 @@ mouths = {}
 pSystems = {} -- all particle systems
 tweens = {}
 
+
 -- locals
 local Sounds = require 'sounds'
 local mouthCount=1
@@ -233,6 +234,10 @@ function init_player()
     moveCount = 0, -- number of moves player has made
   }
   player.curr_anim = player.idle_anim
+end
+
+function restart_player()
+  player.dead = false
 end
 
 function init_player_move(dir)  

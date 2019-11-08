@@ -33,7 +33,7 @@ if CASTLE_PREFETCH then
     --'ui_input.lua',
     'update.lua',
     'sugarcoat/sugarcoat.lua',
-    --'sprinklez.lua',
+    'sprinklez.lua',
     -- 'assets/levels.png',
     -- 'assets/Hungry.ttf',
     -- 'assets/Particle.ttf',
@@ -61,7 +61,7 @@ require("init")
 require("update")
 require("draw")
 --require("ui_input")
---require("sprinklez")
+require("sprinklez")
 
 
 

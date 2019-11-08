@@ -127,7 +127,7 @@ function update_mouths(dt)
 
     -- check for closed mouth player state
     if i == 1 
-     and mouth.openAmount <= 15 --MHEIGHT_CLOSED
+     and mouth.openAmount <= 7 -- closed enough to squish player?
      and not mouth.zooming 
     then
       -- check player position (e.g. in a gap?)
@@ -146,7 +146,7 @@ function update_mouths(dt)
         mouths[2].frame = 300
         -- make sure we don't trip this code again
         mouth.zooming = true
-      else
+      elseif not player.dead then
         log("player dead")
         killPlayer()
       end
@@ -167,6 +167,33 @@ end
 
 function killPlayer()
   player.dead = true
+
+  -- create a new particle system
+  local pEmitter = Sprinklez:createSystem(
+    player.x, 
+    player.y)
+
+  -- set clip bounds
+  pEmitter.game_width = GAME_WIDTH + 20 -- add some leway for particles to spawn at edges
+  pEmitter.game_height = GAME_HEIGHT + 20
+
+  -- tweak effect for blood splatter 😁🩸
+  pEmitter.spread = math.pi*2
+  pEmitter.lifetime = 4     -- Only want 1 "burst"
+  pEmitter.rate = 100
+  pEmitter.acc_min = 20
+  pEmitter.acc_max = 100
+  pEmitter.max_rnd_start = 30 --21
+  pEmitter.cols = particle_cols.COL_BLOOD
+  pEmitter.size_min = 1
+  pEmitter.size_max = 3
+  -- up
+  pEmitter.angle = (math.pi/2)*1
+
+  pEmitter.gravity = 7  -- make more of explosion (slow mo)
+
+   -- Add to particle system
+   table.insert( pSystems, pEmitter )
 end
 
 function levelUp()  

@@ -36,7 +36,7 @@ function draw_game()
     drawSplash()
 
   elseif gameState == GAME_STATE.COMPLETED then
-    draw_level(61)
+    draw_level()
     -- draw congrats!
     pprintc("CONGRATULATIONS", 8, 9,29)
     pprintc("YOU COMPLETED", 24, 47,29)
@@ -58,7 +58,7 @@ function draw_game()
   --circfill(x, y, 4 + 2 * cos(t()), 3)
 end
 
-function draw_level(num)
+function draw_level()
   local levelNum = num or storage.currLevel
 
   use_font("main-font")
@@ -73,7 +73,10 @@ function draw_level(num)
 
 end
 
-function draw_player(x,y,dw,dh)  
+function draw_player(player,dw,dh)    
+  local x = player.x
+  local y = player.y
+
   pal()
   palt(0, false)
 
@@ -107,7 +110,7 @@ function draw_mouth(mouth, layer)
 
   
   local num_teeth = 8
-  local gap = 8  
+  local gap = 2  
   local mwidth = GAME_WIDTH - 100  -- mouth width (at 100%)
   local mheight = GAME_HEIGHT - 48 -- (same, height-wise)
   local mheight_curr = (mheight-mouth.openAmount)/level
@@ -154,10 +157,24 @@ function draw_mouth(mouth, layer)
      and not player.dead
      and player.t_index == t_idx 
     then
-      local size = player.size/level
-      draw_player(tx+6, curr_ttop-size, size, size)
+      local size_x = player.size/level
+      local size_y = size_x
+      -- calc if squish player
+      if mouth.openAmount <= 15 
+       and not mouth.lowerTeeth[player.t_index].gap then
+        size_y = mouth.openAmount*2
+      end
+
+      player.x = tx+9/level
+      player.y = curr_ttop-size_y      
+      draw_player(player, size_x, size_y)
     end
     
+  end
+
+  -- Draw particle system(s)
+  for index, psys in pairs(pSystems) do
+    psys:draw()
   end
   
   

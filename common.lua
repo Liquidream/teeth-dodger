@@ -16,11 +16,9 @@ MHEIGHT_OPEN = 40
 MHEIGHT_CLOSED = 0
 MMAX_FRAMES = 200
 
--- particle_cols={
---   [COL_PINK] = {47,35,26,30},
---   [COL_FINISH] = {47,9,8,6},
---   [COL_START] = {47,9,8,6}  -- in Reverse mode
--- }
+particle_cols={
+  COL_BLOOD = {38,36,39},
+}
 
 -- Andrew Kensler (+another black!)
 -- https://lospec.com/palette-list/andrew-kensler-54
