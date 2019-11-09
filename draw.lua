@@ -117,6 +117,13 @@ function draw_mouth(mouth, layer)
     { 0 }
   }
 
+  -- local tSprites={
+  --   { x=1408, y=71,  w=48, h=128 },
+  --   { x=1456, y=71, w=32, h=128 },
+  --   { x=1488, y=71, w=16, h=128 },
+  --   { x=1504, y=71, w=0, h=0}
+  -- }
+
   local tSprites={
     { num=88, w=3, h=8 },
     { num=91, w=2, h=8 },
@@ -155,7 +162,11 @@ function draw_mouth(mouth, layer)
     local curr_ttop = ty+((theight/10)*tooth.height)/level
     -- draw tooth
     --if DEBUG_MODE then rect(tx,ty, tx+twidth, ty+(10*5)/level, 8) end
-    spr(tSprites[layer].num, tx, (tSprites[layer].h*-16)+curr_ttop, tSprites[layer].w,tSprites[layer].h, false, true)
+    local s=tSprites[layer]
+    --sspr(s.x, s.y, s.w, s.h, tx, (tSprites[layer].h*-16)+curr_ttop, tSprites[layer].w,tSprites[layer].h, false, true)
+    spr(tSprites[layer].num+(tooth.blood and 7 or 0), 
+        tx, (tSprites[layer].h*-16)+curr_ttop, tSprites[layer].w,tSprites[layer].h, false, true)
+    
     -- rectfill(tx,0, tx+twidth, ty+((theight/10)*tooth.height)/level, t_cols[col_type][1] )
     -- rect(tx,0, tx+twidth, ty+((theight/10)*tooth.height)/level, 0)
   end
@@ -170,7 +181,10 @@ function draw_mouth(mouth, layer)
     --if DEBUG_MODE then rect(tx-1,ty, tx+twidth+1, ty-(10*5)/level, 7) end    
     spritesheet("spritesheet")
     set_default_pal()
-    spr(tSprites[layer].num, tx, curr_ttop, tSprites[layer].w,tSprites[layer].h)
+    
+    spr(tSprites[layer].num+(tooth.blood and 7 or 0), 
+       tx, curr_ttop, tSprites[layer].w,tSprites[layer].h)
+
     -- rectfill(tx,GAME_HEIGHT, tx+twidth, curr_ttop, t_cols[col_type][1] )
     -- rect(tx,GAME_HEIGHT, tx+twidth, curr_ttop, 0)
 

@@ -47,8 +47,9 @@ function createMouth(num)
     -- create tooth
     --  > height can ben between 0-4 (opposite tooth must fit or be <, no overlap)
     mouth.upperTeeth[t] = {
-      height = irnd(NUM_TEETH)+1
+      height = irnd(NUM_TEETH)+1,
       --type = irnd(2)
+      blood = false
     }
   end
   -- generate LOWER teeth  
@@ -58,7 +59,8 @@ function createMouth(num)
     mouth.lowerTeeth[t] = {
       height = 10 - mouth.upperTeeth[t].height,
       --type = irnd(2),
-      gap = false
+      gap = false,
+      blood = false
     }
   end
 

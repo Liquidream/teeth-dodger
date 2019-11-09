@@ -181,8 +181,8 @@ function killPlayer()
   -- tweak effect for blood splatter 😁🩸
   pEmitter.spread = math.pi*2
   pEmitter.lifetime = 4     -- Only want 1 "burst"
-  pEmitter.rate = 100
-  pEmitter.acc_min = 20
+  pEmitter.rate = 150
+  pEmitter.acc_min = 30
   pEmitter.acc_max = 100
   pEmitter.max_rnd_start = 30 --21
   pEmitter.cols = particle_cols.COL_BLOOD
@@ -283,8 +283,14 @@ function update_player(dt)
   -- update death count (if there)
   if player.deathCount > 0 then
     player.deathCount = player.deathCount - 1
+    -- blood-stain the teeth?
+    if player.deathCount == 95 then
+      mouths[1].upperTeeth[player.t_index].blood = true
+      mouths[1].lowerTeeth[player.t_index].blood = true
+    end
+    -- respawn player?
     if player.deathCount == 0 then
-      -- respawn player?
+      
       if player.lives > 0 then
         respawn_player()
       else
