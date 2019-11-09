@@ -336,7 +336,7 @@ end
 function load_assets()
   -- load gfx
   load_png("spritesheet", "assets/spritesheet.png", ak54, true)
-  spritesheet_grid(32,32)
+  spritesheet_grid(16,16)
   
   --load_png("levels", "assets/levels.png", ak54, true)
   -- capture pixel info

@@ -64,7 +64,7 @@ function draw_level()
   use_font("main-font")
 
   -- draw mouths/teeth
-  for i=#mouths,1,-1 do
+  for i=#mouths-1,1,-1 do
     draw_mouth(mouths[i], i)
   end
 
@@ -92,6 +92,13 @@ function draw_player(player,dw,dh)
   palt()
 end
 
+function set_default_pal()
+  pal() 
+  palt()
+  palt(0, false)
+  palt(9, true)
+end
+
 
 function draw_mouth(mouth, layer)
   local mw=463
@@ -99,7 +106,9 @@ function draw_mouth(mouth, layer)
   local level = mouth.level
   --log("level = "..tostring(level))
 
-  pal()
+  
+  
+
   local t_cols = {
   [0]={ 47 },
     { 47 },
@@ -108,6 +117,12 @@ function draw_mouth(mouth, layer)
     { 0 }
   }
 
+  local tSprites={
+    { num=88, w=3, h=8 },
+    { num=91, w=2, h=8 },
+    { num=93, w=1, h=8 },
+    { num=94, w=1, h=1}
+  }
   
   local num_teeth = 8
   local gap = 2  
@@ -127,17 +142,22 @@ function draw_mouth(mouth, layer)
   local offx = sin(t2/100)*2/level
   local offy = sin(t2/80)*2/level
 
-  
+
+  spritesheet("spritesheet")
+  set_default_pal()
+
   -- draw UPPER teeth
-  for t_idx = 1,#mouth.upperTeeth do    
+  for t_idx = 1,#mouth.upperTeeth do
     local tooth = mouth.upperTeeth[t_idx]
     local tx = offx+ (t_idx-1)*twidth + gap/2 + (t_idx-1)*gap  
     + (GAME_WIDTH/2 - mwidth/level/2)
     local ty = offy+ (60-mouth.openAmount)/level + (GAME_HEIGHT/2 - mheight/level/2)
+    local curr_ttop = ty+((theight/10)*tooth.height)/level
     -- draw tooth
     --if DEBUG_MODE then rect(tx,ty, tx+twidth, ty+(10*5)/level, 8) end
-    rectfill(tx,0, tx+twidth, ty+((theight/10)*tooth.height)/level, t_cols[col_type][1] )
-    rect(tx,0, tx+twidth, ty+((theight/10)*tooth.height)/level, 0)
+    spr(tSprites[layer].num, tx, (tSprites[layer].h*-16)+curr_ttop, tSprites[layer].w,tSprites[layer].h, false, true)
+    -- rectfill(tx,0, tx+twidth, ty+((theight/10)*tooth.height)/level, t_cols[col_type][1] )
+    -- rect(tx,0, tx+twidth, ty+((theight/10)*tooth.height)/level, 0)
   end
   -- draw LOWER teeth
   for t_idx = 1,#mouth.lowerTeeth do    
@@ -147,9 +167,12 @@ function draw_mouth(mouth, layer)
     local ty = offy+ (mheight - (60-mouth.openAmount))/level + (GAME_HEIGHT/2 - mheight/level/2)
     local curr_ttop = ty-((theight/10)*tooth.height)/level
     -- draw tooth
-    --if DEBUG_MODE then rect(tx-1,ty, tx+twidth+1, ty-(10*5)/level, 7) end
-    rectfill(tx,GAME_HEIGHT, tx+twidth, curr_ttop, t_cols[col_type][1] )
-    rect(tx,GAME_HEIGHT, tx+twidth, curr_ttop, 0)
+    --if DEBUG_MODE then rect(tx-1,ty, tx+twidth+1, ty-(10*5)/level, 7) end    
+    spritesheet("spritesheet")
+    set_default_pal()
+    spr(tSprites[layer].num, tx, curr_ttop, tSprites[layer].w,tSprites[layer].h)
+    -- rectfill(tx,GAME_HEIGHT, tx+twidth, curr_ttop, t_cols[col_type][1] )
+    -- rect(tx,GAME_HEIGHT, tx+twidth, curr_ttop, 0)
 
     
     -- draw player? (only on closest mouth)
