@@ -94,8 +94,8 @@ end
 
 
 function draw_mouth(mouth, layer)
-  local mw=463 --703
-  local mh=223 --479
+  local mw=463
+  local mh=223
   local level = mouth.level
   --log("level = "..tostring(level))
 
@@ -114,7 +114,7 @@ function draw_mouth(mouth, layer)
   local mwidth = GAME_WIDTH - 100  -- mouth width (at 100%)
   local mheight = GAME_HEIGHT - 48 -- (same, height-wise)
   local mheight_curr = (mheight-mouth.openAmount)/level
-  local twidth = ((mwidth-(gap*num_teeth))/num_teeth)/level
+  local twidth = ((mwidth-(gap*num_teeth))/num_teeth)/level  
   local theight = mheight / 2    
   local col_type = flr(level)
   local ttop = (60-mouth.openAmount)/level + (GAME_HEIGHT/2 - mheight/level/2)
@@ -168,6 +168,7 @@ function draw_mouth(mouth, layer)
       player.x = tx+9/level
       player.y = curr_ttop-size_y      
       draw_player(player, size_x, size_y)
+
     end
     
   end
@@ -209,13 +210,16 @@ function draw_mouth(mouth, layer)
 
   spritesheet("spritesheet")  
 
-  pal(38, m_cols[col_type][1])
+  --pal(38, m_cols[col_type][1])
 
-  sspr(0,0, mw,mh, 
-          mleft,
-          mtop, 
-          dw,
-          mheight_spr)
+  local sx_off = (flr(max(level,1))-1)*mw + (flr(max(level,1))-1)*1
+
+  sspr(0+sx_off,0, 
+        mw,mh, 
+        mleft,
+        mtop, 
+        dw,
+        mheight_spr)
 
   
   -- draw mouth/teeth outline
