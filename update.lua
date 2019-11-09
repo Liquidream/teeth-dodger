@@ -167,6 +167,7 @@ end
 
 function killPlayer()
   player.dead = true
+  player.deathCount = 100
 
   -- create a new particle system
   local pEmitter = Sprinklez:createSystem(
@@ -261,24 +262,44 @@ end
 
 function update_player(dt)
   -- handle player control/movement
-  if not player.moving
-   and not player.fell then
+
+  -- update mouse/touch state
+  local mousePressed = btnp(7) 
+  local mx, my = flr(btnv(5)), flr(btnv(6))
+
+  if not player.dead then
     -- left
-    if btnp(0) then
+    if btnp(0)
+     or (mousePressed and mx < GAME_WIDTH/2) then
       player.t_index = max(player.t_index-1, 1)      
     end
-    if btnp(1) then         -- right
+    -- right
+    if btnp(1) 
+     or (mousePressed and mx >GAME_WIDTH/2)then         
       player.t_index = min(player.t_index+1, NUM_TEETH+1)
-    end
-    if btnp(2) then         -- up
-      --init_player_move(0.75, 0, -1)
-    end
-    if btnp(3) then         -- down
-      --init_player_move(0.25, 0, 1)
-    end
+    end    
   end
 
+  -- update death count (if there)
+  if player.deathCount > 0 then
+    player.deathCount = player.deathCount - 1
+    if player.deathCount == 0 then
+      -- respawn player?
+      if player.lives > 0 then
+        respawn_player()
+      else
+        -- game over
+        gameState = GAME_STATE.GAME_OVER
+      end
+    end  
+  end
 
+end
+
+
+function respawn_player()
+  player.lives = player.lives - 1
+  player.dead = false
 end
 
 

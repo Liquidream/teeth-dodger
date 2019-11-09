@@ -188,6 +188,11 @@ function init_input()
                       input_id("keyboard", "s"),
                       input_id("controller_button", "dpdown")})
 
+  -- mouse input
+  register_btn(5,  0, input_id("mouse_position", "x"))
+  register_btn(6,  0, input_id("mouse_position", "y"))
+  register_btn(7,  0, input_id("mouse_button", "lb"))
+
 
 end
 
@@ -220,6 +225,7 @@ function init_player()
     t_index = 6,  -- which tooth is player standing on (1-x, from left-right)
     x = 30,       -- actual screen pos
     y = 30,
+    lives = 3,
     size = 32,
     idle_anim = {60},
     walk_anim_1 = {61,62,62,61},
@@ -232,6 +238,8 @@ function init_player()
     moving = false,
     moveFrameCount = nil,
     moveCount = 0, -- number of moves player has made
+    dead = false,
+    deathCount = 0
   }
   player.curr_anim = player.idle_anim
 end
