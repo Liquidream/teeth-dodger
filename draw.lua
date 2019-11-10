@@ -63,7 +63,7 @@ function draw_level()
 
   use_font("main-font")
 
-  log("draw mouths ---------------")
+  --log("draw mouths ---------------")
   -- draw mouths/teeth
   for i=#mouths-1,1,-1 do
     draw_mouth(mouths[i], i)
@@ -118,19 +118,22 @@ function draw_mouth(mouth, layer)
     { 0 }
   }
 
+  
+  local tSprites={88,91,94,210} 
+
+  -- local tSprites={
+  --   { num=88, w=3, h=8 },
+  --   { num=91, w=2, h=8 },
+  --   { num=93, w=1, h=8 },
+  --   { num=94, w=1, h=1}
+  -- }
+
   -- local tSprites={
   --   { x=1408, y=71,  w=48, h=128 },
   --   { x=1456, y=71, w=32, h=128 },
   --   { x=1488, y=71, w=16, h=128 },
   --   { x=1504, y=71, w=0, h=0}
   -- }
-
-  local tSprites={
-    { num=88, w=3, h=8 },
-    { num=91, w=2, h=8 },
-    { num=93, w=1, h=8 },
-    { num=94, w=1, h=1}
-  }
   
   local num_teeth = 8
   local gap = 2  
@@ -159,9 +162,12 @@ function draw_mouth(mouth, layer)
     mouth.origWidth = twidth
   end
 
-  local scale = twidth/mouth.origWidth
+  local sNum=tSprites[layer]
+  local scale = 1/mouth.level
+  --local scale = twidth/mouth.origWidth
   --local scale = 1+abs(1-(mouth.origWidth-twidth))
-  log("   > level="..level.."  scale="..scale)
+  --log("   > level="..level.."  scale="..scale.."   sNum="..sNum)
+
 
   -- draw UPPER teeth
   for t_idx = 1,#mouth.upperTeeth do
@@ -172,15 +178,21 @@ function draw_mouth(mouth, layer)
     local curr_ttop = ty+((theight/10)*tooth.height)/level
     -- draw tooth
     --if DEBUG_MODE then rect(tx,ty, tx+twidth, ty+(10*5)/level, 8) end
-    local s=tSprites[layer]
     
     
-    aspr(tSprites[layer].num+(tooth.blood and 7 or 0), 
-        tx, (tSprites[layer].h*-16)+curr_ttop,
+    aspr(sNum+(tooth.blood and 9 or 0)+12, 
+        tx, (8*-16)*scale+curr_ttop,
         0, 
-        tSprites[layer].w,tSprites[layer].h, 
+        3,8, 
         0,0, 
-        1,1)
+        scale,scale)
+
+    -- aspr(tSprites[layer].num+(tooth.blood and 7 or 0), 
+    --     tx, (tSprites[layer].h*-16)+curr_ttop,
+    --     0, 
+    --     tSprites[layer].w,tSprites[layer].h, 
+    --     0,0, 
+    --     1,1)
 
     --sspr(s.x, s.y, s.w, s.h, tx, (tSprites[layer].h*-16)+curr_ttop, tSprites[layer].w,tSprites[layer].h, false, true)
     
@@ -202,12 +214,19 @@ function draw_mouth(mouth, layer)
     spritesheet("spritesheet")
     set_default_pal()
     
-    aspr(tSprites[layer].num+(tooth.blood and 7 or 0), 
+    aspr(sNum+(tooth.blood and 9 or 0), 
         tx, curr_ttop,
         0, 
-        tSprites[layer].w,tSprites[layer].h, 
+        3,8, 
         0,0, 
         scale,scale)
+
+    -- aspr(tSprites[layer].num+(tooth.blood and 7 or 0), 
+    --     tx, curr_ttop,
+    --     0, 
+    --     tSprites[layer].w,tSprites[layer].h, 
+    --     0,0, 
+    --     scale,scale)
 
     -- spr(tSprites[layer].num+(tooth.blood and 7 or 0), 
     --    tx, curr_ttop, tSprites[layer].w,tSprites[layer].h)
