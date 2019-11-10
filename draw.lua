@@ -70,7 +70,12 @@ function draw_game()
     draw_level()
 
     -- lives, etc.
-    pprint("LIVES: "..player.lives, 2,0, 45,4)
+    pprint("MOUTHS: "..player.score, 2,0, 45,4)
+    pprint("LIVES: "..player.lives, 390,0, 45,4)
+
+    if player.lives == 0 then
+      pprint("GAME OVER", 195,120, 38,4)
+    end
   end
 
 end
@@ -119,10 +124,6 @@ function draw_mouth(mouth, layer)
   local mw=463
   local mh=223
   local level = mouth.level
-  --log("level = "..tostring(level))
-
-  
-  
 
   local t_cols = {
   [0]={ 47 },
@@ -131,24 +132,9 @@ function draw_mouth(mouth, layer)
     { 41 },
     { 0 }
   }
-
   
   local tSprites={88,91,94,210} 
 
-  -- local tSprites={
-  --   { num=88, w=3, h=8 },
-  --   { num=91, w=2, h=8 },
-  --   { num=93, w=1, h=8 },
-  --   { num=94, w=1, h=1}
-  -- }
-
-  -- local tSprites={
-  --   { x=1408, y=71,  w=48, h=128 },
-  --   { x=1456, y=71, w=32, h=128 },
-  --   { x=1488, y=71, w=16, h=128 },
-  --   { x=1504, y=71, w=0, h=0}
-  -- }
-  
   local num_teeth = 8
   local gap = 2  
   local mwidth = GAME_WIDTH - 100  -- mouth width (at 100%)
@@ -179,10 +165,6 @@ function draw_mouth(mouth, layer)
 
   local sNum=tSprites[level_mid]
   local scale = 1/mouth.level
-  --local scale = twidth/mouth.origWidth
-  --local scale = 1+abs(1-(mouth.origWidth-twidth))
-  --log("   > level="..level.."  scale="..scale.."   sNum="..sNum)
-
 
   -- draw UPPER teeth
   for t_idx = 1,#mouth.upperTeeth do
@@ -202,20 +184,8 @@ function draw_mouth(mouth, layer)
         0,0, 
         scale,scale)
 
-    -- aspr(tSprites[layer].num+(tooth.blood and 7 or 0), 
-    --     tx, (tSprites[layer].h*-16)+curr_ttop,
-    --     0, 
-    --     tSprites[layer].w,tSprites[layer].h, 
-    --     0,0, 
-    --     1,1)
-
-    --sspr(s.x, s.y, s.w, s.h, tx, (tSprites[layer].h*-16)+curr_ttop, tSprites[layer].w,tSprites[layer].h, false, true)
-    
-    -- spr(tSprites[layer].num+(tooth.blood and 7 or 0), 
-    --     tx, (tSprites[layer].h*-16)+curr_ttop, tSprites[layer].w,tSprites[layer].h, false, true)
-    
     -- rectfill(tx,0, tx+twidth, ty+((theight/10)*tooth.height)/level, t_cols[col_type][1] )
-    -- rect(tx,0, tx+twidth, ty+((theight/10)*tooth.height)/level, 0)
+    if DEBUG_MODE then rect(tx,0, tx+twidth, ty+((theight/10)*tooth.height)/level, 7) end
   end
   -- draw LOWER teeth
   for t_idx = 1,#mouth.lowerTeeth do    
@@ -247,7 +217,7 @@ function draw_mouth(mouth, layer)
     --    tx, curr_ttop, tSprites[layer].w,tSprites[layer].h)
 
     -- rectfill(tx,GAME_HEIGHT, tx+twidth, curr_ttop, t_cols[col_type][1] )
-    --  rect(tx,GAME_HEIGHT, tx+twidth, curr_ttop, 0)
+    if DEBUG_MODE then rect(tx,GAME_HEIGHT, tx+twidth, curr_ttop, 7) end
 
     
     -- draw player? (only on closest mouth)
@@ -321,7 +291,7 @@ function draw_mouth(mouth, layer)
 
   
   -- draw mouth/teeth outline
-  if DEBUG_MODE then rect(tleft,ttop, tright, tbottom, 7) end
+  --if DEBUG_MODE then rect(tleft,ttop, tright, tbottom, 7) end
 
 end
 

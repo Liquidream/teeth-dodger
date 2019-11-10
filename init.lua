@@ -8,8 +8,8 @@ tweens = {}
 
 -- locals
 local Sounds = require 'sounds'
-local mouthCount=1
 local mouthType=1
+local mouthCount=1
 local mouthTypeCount=1
 
 
@@ -20,11 +20,17 @@ function init_game()
   init_input()
 
   -- show the title
+  init_title()
+end
+
+function init_title()
+  _t=0
+  tweens = {}
+  player = nil
   gameState = GAME_STATE.TITLE
   use_palette(ak54)  
   init_level()
 end
-
 
 function createMouth(num)
   srand(mouthCount)
@@ -248,6 +254,7 @@ function init_player()
     y = 30,
     lives = 3,
     size = 32,
+    score = 0,
     idle_anim = {60},
     walk_anim_1 = {61,62,62,61},
     walk_anim_2 = {63,64,64,63},

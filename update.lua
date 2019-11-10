@@ -172,6 +172,7 @@ function update_mouths(dt, autozoom)
           log("#tweens = "..#tweens)
           -- player is safe
           log("player safe")
+          player.score = player.score + 1
           -- zoom into next mouth (using tweening!)
           for i=1,3 do
             addTween(
@@ -213,7 +214,9 @@ end
 
 function killPlayer()
   player.dead = true
-  player.deathCount = 100
+  player.lives = player.lives - 1
+  player.deathCount = (player.lives>0) and 100 or 400
+  player.origDeathCount = player.deathCount
 
   -- create a new particle system
   local pEmitter = Sprinklez:createSystem(
@@ -330,7 +333,7 @@ function update_player(dt)
   if player.deathCount > 0 then
     player.deathCount = player.deathCount - 1
     -- blood-stain the teeth?
-    if player.deathCount == 95 then
+    if player.deathCount == player.origDeathCount-5 then
       mouths[1].upperTeeth[player.t_index].blood = true
       mouths[1].lowerTeeth[player.t_index].blood = true
     end
@@ -340,8 +343,9 @@ function update_player(dt)
       if player.lives > 0 then
         respawn_player()
       else
-        -- game over
-        gameState = GAME_STATE.GAME_OVER
+        -- game over        
+        -- show the title
+        init_title()
       end
     end  
   end
@@ -349,8 +353,7 @@ function update_player(dt)
 end
 
 
-function respawn_player()
-  player.lives = player.lives - 1
+function respawn_player()  
   player.dead = false
 end
 
