@@ -9,10 +9,7 @@
   ## IDEAS
   • 
   • 
-  • 
-  • 
-  • 
-  
+  •   
   
 ## DONE  
   • 
@@ -35,13 +32,10 @@ if CASTLE_PREFETCH then
     'update.lua',
     'sugarcoat/sugarcoat.lua',
     'sprinklez.lua',
-    -- 'assets/levels.png',
-    -- 'assets/Hungry.ttf',
-    -- 'assets/Particle.ttf',
-    -- 'assets/splash.png',
-    -- 'assets/spritesheet.png',
+    'assets/Hungry.ttf',
+    'assets/spritesheet.png',
     'assets/title-text.png',
-    -- 'assets/title-text-small.png',
+    -- 'assets/splash.png',
     -- 'assets/controls.gif',
     -- 'assets/snd/music.mp3',
     -- 'assets/snd/win.mp3',

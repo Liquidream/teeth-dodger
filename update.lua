@@ -215,7 +215,7 @@ end
 function killPlayer()
   player.dead = true
   player.lives = player.lives - 1
-  player.deathCount = (player.lives>0) and 100 or 400
+  player.deathCount = (player.lives>0) and 100 or 200
   player.origDeathCount = player.deathCount
 
   -- create a new particle system
@@ -343,9 +343,13 @@ function update_player(dt)
       if player.lives > 0 then
         respawn_player()
       else
-        -- game over        
-        -- show the title
-        init_title()
+        -- game over
+        player.deathCount = 1
+        -- wait for keypress
+        if btnp(0) or btnp(0) or btnp(7) then
+          -- show the title
+          init_title()
+        end
       end
     end  
   end
