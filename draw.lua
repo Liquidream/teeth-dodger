@@ -39,7 +39,11 @@ function draw_game()
     -- todo: title screen
     draw_level()
 
+    palt()
+    palt(0,false)
+    palt(35,true)
     spr_sheet("title", 90,109) 
+    palt()
     -- use_font("main-font")      
     -- pprint("TOOTH DODGER!", 165,120, 45,4)
     
@@ -51,7 +55,7 @@ function draw_game()
     
     
     use_font("small-font")      
-    pprint("BY PAUL NICHOLAS ", 192, 250, 47,4)
+    pprint("BY PAUL NICHOLAS ", 195, 250, 47,4)
 
   elseif gameState == GAME_STATE.COMPLETED then
     draw_level()
