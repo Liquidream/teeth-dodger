@@ -63,11 +63,21 @@ function createMouth(num)
     }
   end
 
-  -- now make a GAP in one (or more) of the teeth
-  local t_idx = irnd(#mouth.lowerTeeth)+1
-  mouth.upperTeeth[t_idx].height = mouth.upperTeeth[t_idx].height - 1.5
-  mouth.lowerTeeth[t_idx].height = mouth.lowerTeeth[t_idx].height - 1.5
-  mouth.lowerTeeth[t_idx].gap = true
+  -- now make a GAP in one (or more) in the teeth
+  local numGaps = max(1,5-flr(mouthCount/5))
+  local gapsMade = 0
+  while gapsMade < numGaps do
+    local t_idx = irnd(#mouth.lowerTeeth)+1
+    -- only create a gap (or another one) if enough "tooth" left
+    if mouth.upperTeeth[t_idx].height>2 
+     and mouth.lowerTeeth[t_idx].height > 2 
+    then
+      mouth.upperTeeth[t_idx].height = mouth.upperTeeth[t_idx].height - 1.5
+      mouth.lowerTeeth[t_idx].height = mouth.lowerTeeth[t_idx].height - 1.5
+      mouth.lowerTeeth[t_idx].gap = true
+      gapsMade = gapsMade + 1
+    end
+  end
 
   -- next one  
   mouthCount = mouthCount+1
