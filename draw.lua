@@ -43,7 +43,13 @@ function draw_game()
     pprint("TOOTH DODGER!", 165,120, 45,4)
     
     use_font("small-font")  
-    pprint("PRESS TO START", 200, 160, 53,4)
+    
+    if (_t%100 < 50) then
+      pprint("PRESS TO START", 200, 160, 53,4)
+    end
+    
+    
+    pprint("BY PAUL NICHOLAS ", 200, 260, 14,4)
 
   elseif gameState == GAME_STATE.COMPLETED then
     draw_level()

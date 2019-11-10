@@ -48,7 +48,7 @@ function update_game(dt)
     game_time = game_time + 1
     update_mouths(dt, true)
     -- check for press
-    if btnp(0) or btnp(0) or mousePressed then
+    if btnp(0) or btnp(0) or btnp(7) then
       gameState = GAME_STATE.LVL_PLAY
       init_player()
       init_level()
@@ -103,15 +103,17 @@ function update_mouths(dt, autozoom)
     
     if autozoom then
       -- constant zoom in
-      mouth.lastLevel = mouth.level
       mouth.level = mouth.level - 0.01
     end
     
         
-    --if i==2 then log("mouth.frame="..mouth.frame) end
+    
+    -- open/close all but current mouth    
+    --if i == 1 then log("level="..mouth.level.."   mouth.lastLevel="..mouth.lastLevel) end
 
-    -- open/close all but current mouth
-    if i == 1 and not autozoom then    
+    local inAutoOpenRange = mouth.level<=0.8 and mouth.lastLevel>=0.8
+
+    if i == 1 and not inAutoOpenRange and not autozoom then
       -- front mouth
       if mouth.frame == 300 then 
         addTween(
@@ -123,10 +125,15 @@ function update_mouths(dt, autozoom)
             tween.new(1, mouth, {openAmount = MHEIGHT_OPEN}, 'outBack')
           )
       end
-      mouth.frame = mouth.frame + 1
-      mouth.frame = mouth.frame % 500
 
-    else
+      -- only advance frames if not too close
+      if mouth.level > 0.9 then
+        mouth.frame = mouth.frame + 1
+        mouth.frame = mouth.frame % 500
+      end
+    
+     else
+
       if i ~= 1 or not autozoom then        
         -- opening/closing mouth
         if mouth.frame == 50 then 
@@ -139,9 +146,10 @@ function update_mouths(dt, autozoom)
               tween.new(1, mouth, {openAmount = MHEIGHT_OPEN}, 'outBack')
             )
         end
+      end
 
       -- if autozoom, auto-open mouth when close to "camera"
-      elseif mouth.lastLevel<=1 and mouth.lastLevel>=0.76 then
+      if inAutoOpenRange then
         addTween(
               tween.new(1, mouth, {openAmount = MHEIGHT_OPEN}, 'outBack')
             )
@@ -150,13 +158,6 @@ function update_mouths(dt, autozoom)
       mouth.frame = mouth.frame + 1
       mouth.frame = mouth.frame % MMAX_FRAMES
           
-        -- -----------------------------------------------------------
-      -- mouth.openAmount = mouth.openAmount + mouth.dir
-      -- -- switch dir?
-      -- if (mouth.dir>0 and mouth.openAmount > 60)
-      --   or (mouth.dir<0 and mouth.openAmount < 0) then 
-      --   mouth.dir = mouth.dir*-1
-      -- end
     end
 
     if player then
@@ -186,10 +187,13 @@ function update_mouths(dt, autozoom)
           killPlayer()
         end
       end
-      
+
     end
 
-  end
+    -- remember...
+    mouth.lastLevel = mouth.level
+
+  end -- end loop mouths
 
   -- time to create new mouth?
   if mouths[1].level <= 0.25 then
