@@ -32,6 +32,7 @@ function createMouth(num)
 
   local mouth = {
     level = num,
+    origLevel = num,
     -- x = 
     -- y = 
     openAmount = (num==1) and MHEIGHT_OPEN or (mouthCount%6)*20, --(0-60, at 100% size)

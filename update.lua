@@ -156,10 +156,14 @@ function update_mouths(dt)
   -- time to create new mouth?
   if mouths[1].level <= 0 then
     -- kill old mouth
-    mouths[1] = nil
+    --mouths[1] = nil
     -- shift other mouths up
-    mouths[1] = mouths[2]
+    mouths[1] = mouths[2]    
+    mouths[1].origLevel = mouths[1].origLevel-1
+    
     mouths[2] = mouths[3]
+    mouths[2].origLevel = mouths[2].origLevel-1
+    
     -- create a new mouth
     mouths[3] = createMouth(3)
   end

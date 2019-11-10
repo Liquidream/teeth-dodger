@@ -63,6 +63,7 @@ function draw_level()
 
   use_font("main-font")
 
+  log("draw mouths ---------------")
   -- draw mouths/teeth
   for i=#mouths-1,1,-1 do
     draw_mouth(mouths[i], i)
@@ -153,6 +154,9 @@ function draw_mouth(mouth, layer)
   spritesheet("spritesheet")
   set_default_pal()
 
+  local scale = 1+abs(1-(mouth.level-(mouth.origLevel-1)))
+  log("   > level="..level.."  scale="..scale)
+
   -- draw UPPER teeth
   for t_idx = 1,#mouth.upperTeeth do
     local tooth = mouth.upperTeeth[t_idx]
@@ -163,9 +167,19 @@ function draw_mouth(mouth, layer)
     -- draw tooth
     --if DEBUG_MODE then rect(tx,ty, tx+twidth, ty+(10*5)/level, 8) end
     local s=tSprites[layer]
+    
+    
+    aspr(tSprites[layer].num+(tooth.blood and 7 or 0), 
+        tx, (tSprites[layer].h*-16)+curr_ttop,
+        0, 
+        tSprites[layer].w,tSprites[layer].h, 
+        0,0, 
+        1,1)
+
     --sspr(s.x, s.y, s.w, s.h, tx, (tSprites[layer].h*-16)+curr_ttop, tSprites[layer].w,tSprites[layer].h, false, true)
-    spr(tSprites[layer].num+(tooth.blood and 7 or 0), 
-        tx, (tSprites[layer].h*-16)+curr_ttop, tSprites[layer].w,tSprites[layer].h, false, true)
+    
+    -- spr(tSprites[layer].num+(tooth.blood and 7 or 0), 
+    --     tx, (tSprites[layer].h*-16)+curr_ttop, tSprites[layer].w,tSprites[layer].h, false, true)
     
     -- rectfill(tx,0, tx+twidth, ty+((theight/10)*tooth.height)/level, t_cols[col_type][1] )
     -- rect(tx,0, tx+twidth, ty+((theight/10)*tooth.height)/level, 0)
@@ -182,8 +196,15 @@ function draw_mouth(mouth, layer)
     spritesheet("spritesheet")
     set_default_pal()
     
-    spr(tSprites[layer].num+(tooth.blood and 7 or 0), 
-       tx, curr_ttop, tSprites[layer].w,tSprites[layer].h)
+    aspr(tSprites[layer].num+(tooth.blood and 7 or 0), 
+        tx, curr_ttop,
+        0, 
+        tSprites[layer].w,tSprites[layer].h, 
+        0,0, 
+        scale,scale)
+
+    -- spr(tSprites[layer].num+(tooth.blood and 7 or 0), 
+    --    tx, curr_ttop, tSprites[layer].w,tSprites[layer].h)
 
     -- rectfill(tx,GAME_HEIGHT, tx+twidth, curr_ttop, t_cols[col_type][1] )
     -- rect(tx,GAME_HEIGHT, tx+twidth, curr_ttop, 0)
