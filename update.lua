@@ -33,16 +33,38 @@ function update_game(dt)
     end
   end
   
+  ------------------------------
+  -- splash screen
+  ------------------------------
   if gameState == GAME_STATE.SPLASH then
     -- todo: splash screen
     updateSplash(dt)
 
-  -- play
+  ------------------------------
+  -- title screen
+  ------------------------------
+  elseif gameState == GAME_STATE.TITLE then
+    --update_player(dt)
+    game_time = game_time + 1
+    update_mouths(dt, true)
+    -- check for press
+    if btnp(0) or btnp(0) or mousePressed then
+      gameState = GAME_STATE.LVL_PLAY
+      init_player()
+      init_level()
+    end
+
+  ------------------------------
+  -- game play
+  ------------------------------
   elseif gameState == GAME_STATE.LVL_PLAY then
     update_player(dt)
     game_time = game_time + 1
-    update_mouths(dt)
+    update_mouths(dt, false)
   
+  ------------------------------
+  -- level end
+  ------------------------------
   elseif gameState == GAME_STATE.LVL_END then
     -- update player animation
     update_anim(player)
@@ -60,6 +82,9 @@ function update_game(dt)
       levelUp()      
     end
 
+  ------------------------------
+  -- completed game
+  ------------------------------
   elseif gameState == GAME_STATE.COMPLETED then
     if _t%5==0 then
       makeParticles(rnd(GAME_WIDTH), rnd(GAME_HEIGHT), rnd(2)<1 and COL_FINISH or COL_PINK)
@@ -69,23 +94,24 @@ end
 
 
 
-function update_mouths(dt)
+function update_mouths(dt, autozoom)
   -- update mouths/teeth
   --log("Mouths ------")
   for i=1,3 do
     local mouth = mouths[i]
   --for _,mouth in pairs(mouths) do
     
-    --log(">> ["..i.."] = "..mouth.level)
-    -- constant zoom in
-    --mouth.level = mouth.level - 0.01
-
+    if autozoom then
+      -- constant zoom in
+      mouth.lastLevel = mouth.level
+      mouth.level = mouth.level - 0.01
+    end
     
         
     --if i==2 then log("mouth.frame="..mouth.frame) end
 
     -- open/close all but current mouth
-    if i == 1 then    
+    if i == 1 and not autozoom then    
       -- front mouth
       if mouth.frame == 300 then 
         addTween(
@@ -101,22 +127,30 @@ function update_mouths(dt)
       mouth.frame = mouth.frame % 500
 
     else
-      -- opening/closing mouth
-      if mouth.frame == 50 then 
+      if i ~= 1 or not autozoom then        
+        -- opening/closing mouth
+        if mouth.frame == 50 then 
+          addTween(
+              tween.new(0.5, mouth, {openAmount = MHEIGHT_CLOSED}, 'outCirc')
+            )
+        end
+        if mouth.frame == 150 then 
+          addTween(
+              tween.new(1, mouth, {openAmount = MHEIGHT_OPEN}, 'outBack')
+            )
+        end
+
+      -- if autozoom, auto-open mouth when close to "camera"
+      elseif mouth.lastLevel<=1 and mouth.lastLevel>=0.76 then
         addTween(
-            tween.new(0.5, mouth, {openAmount = MHEIGHT_CLOSED}, 'outCirc')
-          )
-      end
-      if mouth.frame == 150 then 
-        addTween(
-            tween.new(1, mouth, {openAmount = MHEIGHT_OPEN}, 'outBack')
-          )
+              tween.new(1, mouth, {openAmount = MHEIGHT_OPEN}, 'outBack')
+            )
       end
 
       mouth.frame = mouth.frame + 1
       mouth.frame = mouth.frame % MMAX_FRAMES
-
-      -- -----------------------------------------------------------
+          
+        -- -----------------------------------------------------------
       -- mouth.openAmount = mouth.openAmount + mouth.dir
       -- -- switch dir?
       -- if (mouth.dir>0 and mouth.openAmount > 60)
@@ -125,32 +159,36 @@ function update_mouths(dt)
       -- end
     end
 
-    -- check for closed mouth player state
-    if i == 1 
-     and mouth.openAmount <= 7 -- closed enough to squish player?
-     and not mouth.zooming 
-    then
-      -- check player position (e.g. in a gap?)
-      if mouth.lowerTeeth[player.t_index].gap then
-        log("#mouths = "..#mouths)
-        log("#tweens = "..#tweens)
-        -- player is safe
-        log("player safe")
-        -- zoom into next mouth (using tweening!)
-        for i=1,3 do
-          addTween(
-            tween.new(2,  mouths[i], {level= mouths[i].level-1}, 'inOutQuad')
-          )
+    if player then
+      -- check for closed mouth player state
+      if i == 1 
+      and mouth.openAmount <= 7 -- closed enough to squish player?
+      and not mouth.zooming 
+      then
+        -- check player position (e.g. in a gap?)
+        if mouth.lowerTeeth[player.t_index].gap then
+          log("#mouths = "..#mouths)
+          log("#tweens = "..#tweens)
+          -- player is safe
+          log("player safe")
+          -- zoom into next mouth (using tweening!)
+          for i=1,3 do
+            addTween(
+              tween.new(2,  mouths[i], {level= mouths[i].level-1}, 'inOutQuad')
+            )
+          end
+          -- start the next mouth opening
+          mouths[2].frame = 300
+          -- make sure we don't trip this code again
+          mouth.zooming = true
+        elseif not player.dead then
+          log("player dead")
+          killPlayer()
         end
-        -- start the next mouth opening
-        mouths[2].frame = 300
-        -- make sure we don't trip this code again
-        mouth.zooming = true
-      elseif not player.dead then
-        log("player dead")
-        killPlayer()
       end
+      
     end
+
   end
 
   -- time to create new mouth?

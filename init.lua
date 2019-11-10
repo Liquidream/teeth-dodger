@@ -19,11 +19,10 @@ function init_game()
   load_assets()
   init_input()
 
-  -- create the initial set of mouths/teeth
-  for i=1,4 do
-    local newMouth = createMouth(i)
-    mouths[i] = newMouth
-  end
+  -- show the title
+  gameState = GAME_STATE.TITLE
+  use_palette(ak54)  
+  init_level()
 end
 
 
@@ -34,18 +33,13 @@ function createMouth(num)
 
   local mouth = {
     level = num,
-    --origWidth = widths[num],
-    -- x = 
-    -- y = 
     openAmount = (num==1) and MHEIGHT_OPEN or (mouthCount%6)*20, --(0-60, at 100% size)
-    --openAmount = 60, --(0-60, at 100% size)
     upperTeeth = {},
     lowerTeeth = {},
     col_type = mouthType,
     frame = (num==1) and 0 or irnd(MMAX_FRAMES),
     dir = 1 -- mouth open close direction
   }
-  log("origWidth = "..tostring(mouth.origWidth))
   -- generate UPPER teeth  
   for t=1,8 do
     -- create tooth
@@ -92,7 +86,8 @@ function init_sugarcoat()
   load_png("splash", "assets/splash.png", palettes.pico8, true)
 
   --use_palette(ak54)
-  load_font ("assets/Hungry.ttf", 34, "main-font", true)
+  load_font ("assets/Hungry.ttf", 32, "main-font", true)
+  load_font ("assets/Hungry.ttf", 16, "small-font", true)
   --load_font ("assets/Hungry.ttf", 19, "main-font", true)
   --load_png("title", "assets/title-text-small.png", ak54, true)
   screen_render_stretch(false)
@@ -111,9 +106,9 @@ function init_sugarcoat()
 
 
   -- TEMP: jump straight to game
-  gameState = GAME_STATE.LVL_PLAY
-  use_palette(ak54)  
-  init_level()
+  -- gameState = GAME_STATE.LVL_PLAY
+  -- use_palette(ak54)  
+  -- init_level()
 
   -- init splash
   -- gameState = GAME_STATE.SPLASH 
@@ -202,8 +197,7 @@ function init_input()
 
 end
 
-function init_level()
-  init_player()
+function init_level()  
   load_level(storage.currLevel)
   init_detail_anims()
 
@@ -211,10 +205,20 @@ function init_level()
   game_time = 0
   state_time = 0  
 
+  mouthCount=1
+
+  -- create the initial set of mouths/teeth
+  mouths={}
+  for i=1,4 do
+    local newMouth = createMouth(i)
+    mouths[i] = newMouth
+  end
+
   -- set state
-  gameState = GAME_STATE.LVL_PLAY   
-  light_start = love.timer.getTime()
-  levelReady = true
+  -- gameState = GAME_STATE.LVL_PLAY   
+  -- light_start = love.timer.getTime()
+  -- levelReady = true
+
   -- Sounds.startLevel:play()
   -- Sounds.music:play()
 

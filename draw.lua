@@ -35,6 +35,16 @@ function draw_game()
     -- todo: splash screen
     drawSplash()
 
+  elseif gameState == GAME_STATE.TITLE then
+    -- todo: title screen
+    draw_level()
+
+    use_font("main-font")      
+    pprint("TOOTH DODGER!", 165,120, 45,4)
+    
+    use_font("small-font")  
+    pprint("PRESS TO START", 200, 160, 53,4)
+
   elseif gameState == GAME_STATE.COMPLETED then
     draw_level()
     -- draw congrats!
@@ -50,11 +60,11 @@ function draw_game()
     pprint("SHARE YOUR SCORE", -2,90, 17,29)
   
   else
-  --   -- normal play (level intro/outro/game-over)    
+    -- normal play (level intro/outro/game-over)    
     draw_level()
 
     -- lives, etc.
-    pprint("LIVES: "..player.lives, 2,2, 45,4)
+    pprint("LIVES: "..player.lives, 2,0, 45,4)
   end
 
 end
@@ -236,6 +246,7 @@ function draw_mouth(mouth, layer)
     
     -- draw player? (only on closest mouth)
     if layer == 1 
+     and player
      and not player.dead
      and player.t_index == t_idx 
     then
