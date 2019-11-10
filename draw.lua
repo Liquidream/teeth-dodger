@@ -39,17 +39,19 @@ function draw_game()
     -- todo: title screen
     draw_level()
 
-    use_font("main-font")      
-    pprint("TOOTH DODGER!", 165,120, 45,4)
+    spr_sheet("title", 90,109) 
+    -- use_font("main-font")      
+    -- pprint("TOOTH DODGER!", 165,120, 45,4)
     
-    use_font("small-font")  
-    
+    use_font("main-font") 
     if (_t%100 < 50) then
-      pprint("PRESS TO START", 200, 160, 53,4)
+      pprint("PRESS TO START", 155, 195, 9,4)
+      --pprint("PRESS TO START", 200, 200, 9,4)
     end
     
     
-    pprint("BY PAUL NICHOLAS ", 200, 260, 14,4)
+    use_font("small-font")      
+    pprint("BY PAUL NICHOLAS ", 192, 250, 47,4)
 
   elseif gameState == GAME_STATE.COMPLETED then
     draw_level()
