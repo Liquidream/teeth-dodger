@@ -142,7 +142,8 @@ function draw_mouth(mouth, layer)
   local mheight_curr = (mheight-mouth.openAmount)/level
   local twidth = ((mwidth-(gap*num_teeth))/num_teeth)/level  
   local theight = mheight / 2    
-  local col_type = flr(level)
+  local level_mid = flr(layer+0.5)
+  local col_type = level_mid --flr(level)
   local ttop = (60-mouth.openAmount)/level + (GAME_HEIGHT/2 - mheight/level/2)
   local tbottom = (mheight - (60-mouth.openAmount))/level + (GAME_HEIGHT/2 - mheight/level/2)
   local tleft = gap/2 + (GAME_WIDTH/2 - mwidth/level/2)
@@ -162,7 +163,7 @@ function draw_mouth(mouth, layer)
     mouth.origWidth = twidth
   end
 
-  local sNum=tSprites[layer]
+  local sNum=tSprites[level_mid]
   local scale = 1/mouth.level
   --local scale = twidth/mouth.origWidth
   --local scale = 1+abs(1-(mouth.origWidth-twidth))
@@ -291,11 +292,10 @@ function draw_mouth(mouth, layer)
   rectfill(mright,0,GAME_WIDTH,mtop+mheight_spr,m_cols[col_type][1])
   rectfill(0, mtop+mheight_spr-1, GAME_WIDTH, GAME_HEIGHT, m_cols[col_type][1])  
 
-  spritesheet("spritesheet")  
+  spritesheet("spritesheet")
+  set_default_pal()
 
-  --pal(38, m_cols[col_type][1])
-
-  local sx_off = (flr(max(level,1))-1)*mw + (flr(max(level,1))-1)*1
+  local sx_off = (flr(max(level_mid,1))-1)*mw + (flr(max(level_mid,1))-1)*1
 
   sspr(0+sx_off,0, 
         mw,mh, 
