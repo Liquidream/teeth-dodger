@@ -52,10 +52,11 @@ function draw_game()
   else
   --   -- normal play (level intro/outro/game-over)    
     draw_level()
+
+    -- lives, etc.
+    pprint("LIVES: "..player.lives, 2,2, 45,4)
   end
 
-  
-  --circfill(x, y, 4 + 2 * cos(t()), 3)
 end
 
 function draw_level()
@@ -68,9 +69,6 @@ function draw_level()
   for i=#mouths-1,1,-1 do
     draw_mouth(mouths[i], i)
   end
-
- 
-  --pprint("TODO: Everything!", 30,50, 18,29)
 
 end
 
@@ -309,6 +307,7 @@ function draw_mouth(mouth, layer)
   if DEBUG_MODE then rect(tleft,ttop, tright, tbottom, 7) end
 
 end
+
 
 
 -- pprint, centered
