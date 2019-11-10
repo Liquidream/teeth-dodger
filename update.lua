@@ -105,8 +105,7 @@ function update_mouths(dt, autozoom)
       -- constant zoom in
       mouth.level = mouth.level - 0.01
     end
-    
-        
+          
     
     -- open/close all but current mouth    
     --if i == 1 then log("level="..mouth.level.."   mouth.lastLevel="..mouth.lastLevel) end
@@ -115,35 +114,35 @@ function update_mouths(dt, autozoom)
 
     if i == 1 and not inAutoOpenRange and not autozoom then
       -- front mouth
-      if mouth.frame == 300 then 
+      if mouth.frame == 300*speed_factor then 
         addTween(
-            tween.new(0.5, mouth, {openAmount = MHEIGHT_CLOSED}, 'outCirc')
+            tween.new(0.5*speed_factor, mouth, {openAmount = MHEIGHT_CLOSED}, 'outCirc')
           )
       end
-      if mouth.frame == 400 then 
+      if mouth.frame == 400*speed_factor then 
         addTween(
-            tween.new(1, mouth, {openAmount = MHEIGHT_OPEN}, 'outBack')
+            tween.new(1*speed_factor, mouth, {openAmount = MHEIGHT_OPEN}, 'outBack')
           )
       end
 
       -- only advance frames if not too close
       if mouth.level > 0.9 then
         mouth.frame = mouth.frame + 1
-        mouth.frame = mouth.frame % 500
+        mouth.frame = mouth.frame % 500*speed_factor
       end
     
      else
 
       if i ~= 1 or not autozoom then        
         -- opening/closing mouth
-        if mouth.frame == 50 then 
+        if mouth.frame == 50*speed_factor then 
           addTween(
-              tween.new(0.5, mouth, {openAmount = MHEIGHT_CLOSED}, 'outCirc')
+              tween.new(0.5*speed_factor, mouth, {openAmount = MHEIGHT_CLOSED}, 'outCirc')
             )
         end
-        if mouth.frame == 150 then 
+        if mouth.frame == 150*speed_factor then 
           addTween(
-              tween.new(1, mouth, {openAmount = MHEIGHT_OPEN}, 'outBack')
+              tween.new(1*speed_factor, mouth, {openAmount = MHEIGHT_OPEN}, 'outBack')
             )
         end
       end
@@ -151,7 +150,7 @@ function update_mouths(dt, autozoom)
       -- if autozoom, auto-open mouth when close to "camera"
       if inAutoOpenRange then
         addTween(
-              tween.new(1, mouth, {openAmount = MHEIGHT_OPEN}, 'outBack')
+              tween.new(1*speed_factor, mouth, {openAmount = MHEIGHT_OPEN}, 'outBack')
             )
       end
 
@@ -176,11 +175,14 @@ function update_mouths(dt, autozoom)
           -- zoom into next mouth (using tweening!)
           for i=1,3 do
             addTween(
-              tween.new(2,  mouths[i], {level= mouths[i].level-1}, 'inOutQuad')
+              tween.new(2*speed_factor,  mouths[i], {level= mouths[i].level-1}, 'inOutQuad')
             )
           end
+          -- speed up
+          speed_factor=speed_factor*0.5
           -- start the next mouth opening
-          mouths[2].frame = 300
+          mouths[2].frame = 150*speed_factor
+          log(">>>>>>>>>>>>>>>>>>>>>>>>>>>")
           -- make sure we don't trip this code again
           mouth.zooming = true
         elseif not player.dead then

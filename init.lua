@@ -223,6 +223,8 @@ function init_level()
 
   mouthCount=1
 
+  speed_factor=1
+
   -- create the initial set of mouths/teeth
   mouths={}
   for i=1,4 do
