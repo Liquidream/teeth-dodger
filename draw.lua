@@ -49,7 +49,7 @@ function draw_game()
     
     use_font("main-font") 
     if (_t%100 < 50) then
-      pprint("PRESS TO START", 155, 195, 9,4)
+      pprint("PRESS L OR R TO START", 105, 195, 9,4)
       --pprint("PRESS TO START", 200, 200, 9,4)
     end
     
@@ -81,6 +81,11 @@ function draw_game()
 
     if player.lives == 0 then
       pprint("GAME OVER", 195,120, 38,4)
+      
+      if (_t%100 < 50) then
+        use_font("small-font")  
+        pprint("(DON'T FORGET TO SHARE YOUR SCORE) ", 140, 270, 47,4)
+      end
     end
   end
 
@@ -101,7 +106,7 @@ end
 
 function draw_player(player,dw,dh)    
   local x = player.x
-  local y = player.y
+  local y = player.y+3
 
   pal()
   palt(0, false)
