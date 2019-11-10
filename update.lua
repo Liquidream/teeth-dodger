@@ -113,13 +113,14 @@ function update_mouths(dt, autozoom)
     local inAutoOpenRange = mouth.level<=0.8 and mouth.lastLevel>=0.8
 
     if i == 1 and not inAutoOpenRange and not autozoom then
+      --log("mouth.frame="..mouth.frame)
       -- front mouth
-      if mouth.frame == 300*speed_factor then 
+      if mouth.frame == flr(300*speed_factor) then 
         addTween(
             tween.new(0.5*speed_factor, mouth, {openAmount = MHEIGHT_CLOSED}, 'outCirc')
           )
       end
-      if mouth.frame == 400*speed_factor then 
+      if mouth.frame == flr(400*speed_factor) then 
         addTween(
             tween.new(1*speed_factor, mouth, {openAmount = MHEIGHT_OPEN}, 'outBack')
           )
@@ -128,19 +129,19 @@ function update_mouths(dt, autozoom)
       -- only advance frames if not too close
       if mouth.level > 0.9 then
         mouth.frame = mouth.frame + 1
-        mouth.frame = mouth.frame % 500*speed_factor
+        mouth.frame = flr(mouth.frame % (500*speed_factor))
       end
     
      else
 
       if i ~= 1 or not autozoom then        
         -- opening/closing mouth
-        if mouth.frame == 50*speed_factor then 
+        if mouth.frame == flr(50*speed_factor) then 
           addTween(
               tween.new(0.5*speed_factor, mouth, {openAmount = MHEIGHT_CLOSED}, 'outCirc')
             )
         end
-        if mouth.frame == 150*speed_factor then 
+        if mouth.frame == flr(150*speed_factor) then 
           addTween(
               tween.new(1*speed_factor, mouth, {openAmount = MHEIGHT_OPEN}, 'outBack')
             )
@@ -179,10 +180,9 @@ function update_mouths(dt, autozoom)
             )
           end
           -- speed up
-          speed_factor=speed_factor*0.5
+          speed_factor=speed_factor*0.99
           -- start the next mouth opening
-          mouths[2].frame = 150*speed_factor
-          log(">>>>>>>>>>>>>>>>>>>>>>>>>>>")
+          mouths[2].frame = flr(150*speed_factor)
           -- make sure we don't trip this code again
           mouth.zooming = true
         elseif not player.dead then
@@ -318,7 +318,8 @@ function update_player(dt)
   local mousePressed = btnp(7) 
   local mx, my = flr(btnv(5)), flr(btnv(6))
 
-  if not player.dead then
+  if not player.dead 
+   and not mouths[1].zooming then
     -- left
     if btnp(0)
      or (mousePressed and mx < GAME_WIDTH/2) then
