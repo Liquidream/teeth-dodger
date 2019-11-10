@@ -30,9 +30,11 @@ end
 function createMouth(num)
   srand(mouthCount)
 
+  local widths={48,32,16}
+
   local mouth = {
     level = num,
-    origLevel = num,
+    --origWidth = widths[num],
     -- x = 
     -- y = 
     openAmount = (num==1) and MHEIGHT_OPEN or (mouthCount%6)*20, --(0-60, at 100% size)
@@ -43,6 +45,7 @@ function createMouth(num)
     frame = (num==1) and 0 or irnd(MMAX_FRAMES),
     dir = 1 -- mouth open close direction
   }
+  log("origWidth = "..tostring(mouth.origWidth))
   -- generate UPPER teeth  
   for t=1,8 do
     -- create tooth
