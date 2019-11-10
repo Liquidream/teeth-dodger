@@ -200,7 +200,7 @@ function draw_mouth(mouth, layer)
     --     tx, (tSprites[layer].h*-16)+curr_ttop, tSprites[layer].w,tSprites[layer].h, false, true)
     
     -- rectfill(tx,0, tx+twidth, ty+((theight/10)*tooth.height)/level, t_cols[col_type][1] )
-     rect(tx,0, tx+twidth, ty+((theight/10)*tooth.height)/level, 0)
+    -- rect(tx,0, tx+twidth, ty+((theight/10)*tooth.height)/level, 0)
   end
   -- draw LOWER teeth
   for t_idx = 1,#mouth.lowerTeeth do    
@@ -232,7 +232,7 @@ function draw_mouth(mouth, layer)
     --    tx, curr_ttop, tSprites[layer].w,tSprites[layer].h)
 
     -- rectfill(tx,GAME_HEIGHT, tx+twidth, curr_ttop, t_cols[col_type][1] )
-     rect(tx,GAME_HEIGHT, tx+twidth, curr_ttop, 0)
+    --  rect(tx,GAME_HEIGHT, tx+twidth, curr_ttop, 0)
 
     
     -- draw player? (only on closest mouth)
