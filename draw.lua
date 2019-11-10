@@ -72,8 +72,8 @@ function draw_game()
     draw_level()
 
     -- lives, etc.
-    pprint("MOUTHS: "..player.score, 2,0, 45,4)
-    pprint("LIVES: "..player.lives, 390,0, 45,4)
+    pprint("MOUTHS: "..player.score, 2,0, 9,4)
+    pprint("LIVES: "..player.lives, 390,0, 9,4)
 
     if player.lives == 0 then
       pprint("GAME OVER", 195,120, 38,4)
