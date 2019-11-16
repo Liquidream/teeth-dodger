@@ -126,6 +126,12 @@ function init_sugarcoat()
 end
 
 function init_data()
+  -- ####################################
+  -- WARNING: Wipe GLOBAL data!
+  -- ####################################
+  storage.setGlobalValue("globalHighScores",{})
+  -- ####################################
+
   -- Get Global saved data
   refreshGlobalHighScores()
 end
@@ -134,15 +140,6 @@ function addTween(tween)
   table.insert( tweens, tween )
 end
 
-function resetPlayerProgress()
-  -- reset progress
-  log("resetting player progress..")
-  -- ####################################
-  -- ...also wipe GLOBAL data!
-  -- ####################################
-  --storage.setGlobalValue("globalHighScores",{})
-  -- ####################################
-end
 
 function refreshGlobalHighScores()
   -- Get Global saved data
