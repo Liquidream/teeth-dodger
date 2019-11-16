@@ -61,6 +61,18 @@ function update_game(dt)
     update_player(dt)
     game_time = game_time + 1
     update_mouths(dt, false)      
+  
+  ------------------------------
+  -- game over
+  ------------------------------
+  elseif gameState == GAME_STATE.GAME_OVER then
+    game_time = game_time + 1
+    update_mouths(dt, false)
+    -- wait for keypress
+    if btnp(0) or btnp(0) or btnp(7) then
+      -- show the title
+      init_title()
+    end
   end
 
 end
@@ -273,14 +285,9 @@ function update_player(dt)
         respawn_player()
       else
         -- game over
-        player.deathCount = 1
-        -- Submit player's score (if better than prev)
-        submitHighScore()
-        -- wait for keypress
-        if btnp(0) or btnp(0) or btnp(7) then
-          -- show the title
-          init_title()
-        end
+        gameState = GAME_STATE.GAME_OVER
+        -- Submit player's score (if better than prev)        
+        submitHighScore()        
       end
     end  
   end
