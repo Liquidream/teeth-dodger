@@ -129,7 +129,7 @@ function init_data()
   -- ####################################
   -- WARNING: Wipe GLOBAL data!
   -- ####################################
-  storage.setGlobalValue("globalHighScores",{})
+  --storage.setGlobalValue("globalHighScores",{})
   -- ####################################
 
   -- Get Global saved data
