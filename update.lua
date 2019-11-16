@@ -229,15 +229,15 @@ function submitHighScore()
   local prevScore = globalHighScores[my_id]
   log("prevScore = "..tostring(prevScore))
   if not prevScore 
-   or mouthCount > prevScore.mouthCount
+   or player.score > prevScore.score
   then
-    log("mouthCount = "..mouthCount)
+    log("player.score = "..player.score)
     if prevScore then
-      log("prevScore.mouthCount = "..prevScore.mouthCount)
+      log("prevScore.score = "..prevScore.score)
     end
     -- Submit THIS score
     local newScore = {
-      mouthCount = mouthCount-1,
+      score = player.score,
       name = my_name,
     }
     -- add/replace player's score
