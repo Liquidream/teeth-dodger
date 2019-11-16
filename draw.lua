@@ -283,10 +283,10 @@ function draw_mouth(mouth, layer)
 
 
 
-  rectfill(0,0,GAME_WIDTH,mtop,m_cols[col_type][1])
-  rectfill(0,0,mleft,mtop+mheight_spr,m_cols[col_type][1])
-  rectfill(mright,0,GAME_WIDTH,mtop+mheight_spr,m_cols[col_type][1])
-  rectfill(0, mtop+mheight_spr-1, GAME_WIDTH, GAME_HEIGHT, m_cols[col_type][1])  
+  rectfill(-1,-1,GAME_WIDTH,mtop,m_cols[col_type][1])
+  rectfill(-1,-1,mleft,mtop+mheight_spr,m_cols[col_type][1])
+  rectfill(mright,0,GAME_WIDTH+1,mtop+mheight_spr,m_cols[col_type][1])
+  rectfill(-1, mtop+mheight_spr-1, GAME_WIDTH+1, GAME_HEIGHT+1, m_cols[col_type][1])  
 
   spritesheet("spritesheet")
   set_default_pal()
