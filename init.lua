@@ -4,12 +4,12 @@ _t=0
 mouths = {}
 pSystems = {} -- all particle systems
 tweens = {}
+mouthCount=1
 
 
 -- locals
 local Sounds = require 'sounds'
 local mouthType=1
-local mouthCount=1
 local mouthTypeCount=1
 
 
