@@ -237,7 +237,7 @@ function submitHighScore()
     end
     -- Submit THIS score
     local newScore = {
-      mouthCount = mouthCount,
+      mouthCount = mouthCount-1,
       name = my_name,
     }
     -- add/replace player's score
