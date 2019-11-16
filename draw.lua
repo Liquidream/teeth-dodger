@@ -24,11 +24,6 @@ function draw_game()
     0x2120, 
     0x2220, 
     0x0)
-  -- printp(
-  --   0x1000, 
-  --   0x2000, 
-  --   0x0, 
-  --   0x0)
   printp_color(47, 0, 0, 0)
 
   if gameState == GAME_STATE.SPLASH then
@@ -57,19 +52,19 @@ function draw_game()
     use_font("small-font")      
     pprint("BY PAUL NICHOLAS ", 195, 250, 47,4)
 
-  elseif gameState == GAME_STATE.COMPLETED then
-    draw_level()
-    -- draw congrats!
-    pprintc("CONGRATULATIONS", 8, 9,29)
-    pprintc("YOU COMPLETED", 24, 47,29)
-    pprintc("THE GAME!", 34, 47,29)    
-    local myScore = globalHighScores[my_id]
-    if myScore then
-      pprint("TIME = "..formatTime(myScore.time), 16,51, 45,29)
-      pprint("DEATHS = "..myScore.deaths, 16,61, 38,29)
-    end
-    pprint("DON'T FORGET TO", 1,80, 17,29)
-    pprint("SHARE YOUR SCORE", -2,90, 17,29)
+  -- elseif gameState == GAME_STATE.COMPLETED then
+  --   draw_level()
+  --   -- draw congrats!
+  --   pprintc("CONGRATULATIONS", 8, 9,29)
+  --   pprintc("YOU COMPLETED", 24, 47,29)
+  --   pprintc("THE GAME!", 34, 47,29)    
+  --   local myScore = globalHighScores[my_id]
+  --   if myScore then
+  --     pprint("TIME = "..formatTime(myScore.time), 16,51, 45,29)
+  --     pprint("DEATHS = "..myScore.deaths, 16,61, 38,29)
+  --   end
+  --   pprint("DON'T FORGET TO", 1,80, 17,29)
+  --   pprint("SHARE YOUR SCORE", -2,90, 17,29)
   
   else
     -- normal play (level intro/outro/game-over)    
@@ -96,7 +91,6 @@ function draw_level()
 
   use_font("main-font")
 
-  --log("draw mouths ---------------")
   -- draw mouths/teeth
   for i=#mouths-1,1,-1 do
     draw_mouth(mouths[i], i)
