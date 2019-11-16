@@ -217,7 +217,7 @@ function submitHighScore()
   local prevScore = globalHighScores[my_id]
   log("prevScore = "..tostring(prevScore))
   if not prevScore 
-   or mouthCount > prevScore
+   or mouthCount > prevScore.mouthCount
   then
     log("mouthCount = "..mouthCount)
     if prevScore then
