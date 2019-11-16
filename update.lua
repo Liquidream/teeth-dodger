@@ -53,6 +53,28 @@ function update_game(dt)
       init_player()
       init_level()
     end
+    -- transition to highscore table?
+    if game_time%1200 == 300 then
+      log("TODO: switch to highscore...")
+      addTween(
+        tween.new(1, title, {logo_ypos = TITLE_LOGO_SCORES_Y}, 'outCirc')
+      )
+      addTween(
+        tween.new(1, title, {prompt_ypos = TITLE_PROMPT_SCORES_Y}, 'outCirc')
+      )
+      title.show_credit = false
+    end
+    -- transition back to normal title?
+    if game_time%1201 == 1200 then
+      log("TODO: switch to normal...")
+      addTween(
+        tween.new(1, title, {logo_ypos = TITLE_LOGO_NORM_Y}, 'outCirc')
+      )
+      addTween(
+        tween.new(1, title, {prompt_ypos = TITLE_PROMPT_NORM_Y}, 'outCirc')
+      )
+      title.show_credit = true
+    end
 
   ------------------------------
   -- game play
@@ -242,7 +264,7 @@ function submitHighScore()
     }
     -- add/replace player's score
     globalHighScores[my_id] = newScore
-
+        
     -- save global changes
     storage.setGlobalValue("globalHighScores",globalHighScores)
   end

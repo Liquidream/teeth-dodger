@@ -4,6 +4,7 @@ _t=0
 mouths = {}
 pSystems = {} -- all particle systems
 tweens = {}
+title = {}
 mouthCount=1
 
 
@@ -28,8 +29,17 @@ function init_title()
   tweens = {}
   player = nil
   gameState = GAME_STATE.TITLE
-  use_palette(ak54)  
+  use_palette(ak54)
   init_level()
+  title = {
+    logo_ypos = TITLE_LOGO_NORM_Y,
+    prompt_ypos = TITLE_PROMPT_NORM_Y,
+    show_credit = true,
+    orderedHighScores = {}
+  }
+
+  -- Get Global saved data
+  refreshGlobalHighScores()
 end
 
 function createMouth(num)
@@ -132,8 +142,24 @@ function init_data()
   --storage.setGlobalValue("globalHighScores",{})
   -- ####################################
 
-  -- Get Global saved data
-  refreshGlobalHighScores()
+    --##### temp test data  ##################
+    -- globalHighScores={}
+    -- globalHighScores[1] = { score = 1, name = "panman" }
+    -- globalHighScores[2] = { score = 10, name = "panman22" }
+    -- globalHighScores[3] = { score = 2, name = "panman333" }
+    -- globalHighScores[4] = { score = 9, name = "panman4444" }
+    -- globalHighScores[5] = { score = 3, name = "panman55555" }
+    -- globalHighScores[6] = { score = 8, name = "panman666666" }
+    -- globalHighScores[7] = { score = 4, name = "panman7777777" }
+    -- globalHighScores[8] = { score = 7, name = "panman88888888" }
+    -- globalHighScores[9] = { score = 5, name = "panman999999999" }
+    -- globalHighScores[10] = { score = 6, name = "panman000000000" }
+    -- globalHighScores[11] = { score = 40, name = "panman898989898" }
+    -- globalHighScores[12] = { score = 30, name = "panman787877878787" }
+    
+    -- save global changes
+    --storage.setGlobalValue("globalHighScores",globalHighScores)
+
 end
 
 function addTween(tween)
@@ -146,8 +172,20 @@ function refreshGlobalHighScores()
   storage.getGlobalValue("globalHighScores", {}, function(retValue) 
     globalHighScores = retValue
     -- debug contents
-    for key,score in pairs(globalHighScores) do
-      log(" > ["..key.."] time="..score.time.." (💀="..score.deaths..")")
+    for key,playerData in pairs(globalHighScores) do
+      log(" > ["..key.."] score="..playerData.score)
+    end
+
+    -- this uses an custom sorting function ordering by score descending
+    title.orderedHighScores = {}
+    local pos = 1
+    for key,playerData in spairs(globalHighScores, function(t,a,b) 
+      return (t[a].score > (t[b].score))
+     end) 
+    do
+      log("got score "..pos)
+      title.orderedHighScores[pos] = playerData
+      pos = pos + 1
     end
   end)
 end
