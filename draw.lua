@@ -49,7 +49,7 @@ function draw_game()
     -- high score table?
     if game_time%1200 > 350 then
       local scoreTime = game_time%1200-350
-      pprint("MOST MOUTHS", 175,75, 9,4)
+      pprint("MOST MOUTHS", 175,75, 35,4)
       use_font("small-font")
       for i=1,10 do
         local scoreData = title.orderedHighScores[i]
@@ -74,7 +74,7 @@ function draw_game()
     pprint("LIVES: "..player.lives, 390,-5, 9,4)
 
     if player.lives == 0 then
-      pprint("GAME OVER", 195,120, 38,4)
+      pprint("GAME OVER", 195,120, 35,4)
       
       if (_t%100 < 50) then
         use_font("small-font")  

@@ -218,7 +218,7 @@ function init_level()
   game_time = 0
   state_time = 0
   mouthCount=1
-  speed_factor=1
+  speed_factor=0.8
 
   -- create the initial set of mouths/teeth
   mouths={}

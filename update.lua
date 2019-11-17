@@ -143,6 +143,7 @@ function update_mouths(dt, autozoom)
               tween.new(0.5*speed_factor, mouth, {openAmount = MHEIGHT_CLOSED}, 'outCirc')
             )
         end
+        --log("2) frm>"..mouths[2].frame)
         if mouth.frame == flr(150*speed_factor) then 
           addTween(
               tween.new(1*speed_factor, mouth, {openAmount = MHEIGHT_OPEN}, 'outBack')
@@ -158,7 +159,7 @@ function update_mouths(dt, autozoom)
       end
 
       mouth.frame = mouth.frame + 1
-      mouth.frame = mouth.frame % MMAX_FRAMES
+      mouth.frame = mouth.frame % flr(MMAX_FRAMES*speed_factor)
           
     end
 
@@ -180,8 +181,10 @@ function update_mouths(dt, autozoom)
           end
           -- speed up
           speed_factor=speed_factor*0.99
+          log("speed_factor = "..speed_factor)
           -- start the next mouth opening
           mouths[2].frame = flr(150*speed_factor)
+          log("1) frm>"..mouths[2].frame)
           -- make sure we don't trip this code again
           mouth.zooming = true
         elseif not player.dead then
