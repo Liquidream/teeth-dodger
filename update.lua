@@ -188,10 +188,9 @@ function update_mouths(dt, autozoom)
           end
           -- speed up
           speed_factor=speed_factor*0.99
-          log("speed_factor = "..speed_factor)
+          --log("speed_factor = "..speed_factor)
           -- start the next mouth opening
           mouths[2].frame = flr(150*speed_factor)
-          log("1) frm>"..mouths[2].frame)
           -- make sure we don't trip this code again
           mouth.zooming = true
         elseif not player.dead then
