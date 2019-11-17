@@ -90,9 +90,16 @@ function update_game(dt)
   elseif gameState == GAME_STATE.GAME_OVER then
     game_time = game_time + 1
     update_mouths(dt, false)
-    -- wait for keypress
+    -- wait for keypress/time-out...
     if btnp(0) or btnp(0) or btnp(7) then
-      -- show the title
+     -- restart game
+     gameState = GAME_STATE.LVL_PLAY
+     init_player()
+     init_level()
+  
+    -- ...or been 10+ secs?
+    elseif game_time - gameEndTime > 10*60 then 
+      -- go back to title
       init_title()
     end
   end
@@ -216,7 +223,7 @@ end
 function killPlayer()
   player.dead = true
   player.lives = player.lives - 1
-  player.deathCount = (player.lives>0) and 100 or 200
+  player.deathCount = 100
   player.origDeathCount = player.deathCount
 
   -- create a new particle system
@@ -311,6 +318,7 @@ function update_player(dt)
       else
         -- game over
         gameState = GAME_STATE.GAME_OVER
+        gameEndTime = game_time
         -- Submit player's score (if better than prev)        
         submitHighScore()        
       end

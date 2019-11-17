@@ -227,11 +227,6 @@ function init_level()
     mouths[i] = newMouth
   end
 
-  -- set state
-  -- gameState = GAME_STATE.LVL_PLAY   
-  -- light_start = love.timer.getTime()
-  -- levelReady = true
-
   -- Sounds.startLevel:play()
   -- Sounds.music:play()
 

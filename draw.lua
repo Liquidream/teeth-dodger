@@ -75,11 +75,16 @@ function draw_game()
 
     if player.lives == 0 then
       pprint("GAME OVER", 195,120, 35,4)
-      
+
+      use_font("main-font") 
       if (_t%100 < 50) then
+        pprint("PRESS L OR R TO RESTART", 105, title.prompt_ypos, 9,4)
+      end
+      
+      --if (_t%100 < 50) then
         use_font("small-font")  
         pprint("(DON'T FORGET TO SHARE YOUR SCORE) ", 140, 270, 47,4)
-      end
+      --end
     end
   end
 
