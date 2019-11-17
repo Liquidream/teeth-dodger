@@ -24,11 +24,6 @@ function draw_game()
     0x2120, 
     0x2220, 
     0x0)
-  -- printp(
-  --   0x1000, 
-  --   0x2000, 
-  --   0x0, 
-  --   0x0)
   printp_color(47, 0, 0, 0)
 
   if gameState == GAME_STATE.SPLASH then
@@ -42,35 +37,34 @@ function draw_game()
     palt()
     palt(0,false)
     palt(35,true)
-    spr_sheet("title", 90,109) 
+    spr_sheet("title", 90, title.logo_ypos) 
     palt()
-    -- use_font("main-font")      
-    -- pprint("TOOTH DODGER!", 165,120, 45,4)
     
+    -- title 
     use_font("main-font") 
     if (_t%100 < 50) then
-      pprint("PRESS L OR R TO START", 105, 195, 9,4)
-      --pprint("PRESS TO START", 200, 200, 9,4)
+      pprint("PRESS L OR R TO START", 105, title.prompt_ypos, 9,4)
     end
     
-    
-    use_font("small-font")      
-    pprint("BY PAUL NICHOLAS ", 195, 250, 47,4)
+    -- high score table?
+    if game_time%1200 > 350 then
+      local scoreTime = game_time%1200-350
+      pprint("MOST MOUTHS", 175,75, 35,4)
+      use_font("small-font")
+      for i=1,10 do
+        local scoreData = title.orderedHighScores[i]
+        local scoreYPos = 90+(i*12)
+        if scoreData then
+          pprint(scoreData.score, 195, scoreYPos, 47,4)
+          pprint(string.upper(scoreData.name), 235, scoreYPos, 47,4)
+        end
+      end
+    end
 
-  elseif gameState == GAME_STATE.COMPLETED then
-    draw_level()
-    -- draw congrats!
-    pprintc("CONGRATULATIONS", 8, 9,29)
-    pprintc("YOU COMPLETED", 24, 47,29)
-    pprintc("THE GAME!", 34, 47,29)    
-    local myScore = globalHighScores[my_id]
-    if myScore then
-      pprint("TIME = "..formatTime(myScore.time), 16,51, 45,29)
-      pprint("DEATHS = "..myScore.deaths, 16,61, 38,29)
-    end
-    pprint("DON'T FORGET TO", 1,80, 17,29)
-    pprint("SHARE YOUR SCORE", -2,90, 17,29)
-  
+    --if title.show_credit then
+      use_font("small-font")
+      pprint("BY PAUL NICHOLAS ", 195, 250, 47,4)
+    --end
   else
     -- normal play (level intro/outro/game-over)    
     draw_level()
@@ -80,12 +74,17 @@ function draw_game()
     pprint("LIVES: "..player.lives, 390,-5, 9,4)
 
     if player.lives == 0 then
-      pprint("GAME OVER", 195,120, 38,4)
-      
+      pprint("GAME OVER", 195,120, 35,4)
+
+      use_font("main-font") 
       if (_t%100 < 50) then
+        pprint("PRESS L OR R TO RESTART", 105, title.prompt_ypos, 9,4)
+      end
+      
+      --if (_t%100 < 50) then
         use_font("small-font")  
         pprint("(DON'T FORGET TO SHARE YOUR SCORE) ", 140, 270, 47,4)
-      end
+      --end
     end
   end
 
@@ -96,7 +95,6 @@ function draw_level()
 
   use_font("main-font")
 
-  --log("draw mouths ---------------")
   -- draw mouths/teeth
   for i=#mouths-1,1,-1 do
     draw_mouth(mouths[i], i)
@@ -283,10 +281,10 @@ function draw_mouth(mouth, layer)
 
 
 
-  rectfill(0,0,GAME_WIDTH,mtop,m_cols[col_type][1])
-  rectfill(0,0,mleft,mtop+mheight_spr,m_cols[col_type][1])
-  rectfill(mright,0,GAME_WIDTH,mtop+mheight_spr,m_cols[col_type][1])
-  rectfill(0, mtop+mheight_spr-1, GAME_WIDTH, GAME_HEIGHT, m_cols[col_type][1])  
+  rectfill(-1,-1,GAME_WIDTH,mtop,m_cols[col_type][1])
+  rectfill(-1,-1,mleft,mtop+mheight_spr,m_cols[col_type][1])
+  rectfill(mright,0,GAME_WIDTH+1,mtop+mheight_spr,m_cols[col_type][1])
+  rectfill(-1, mtop+mheight_spr-1, GAME_WIDTH+1, GAME_HEIGHT+1, m_cols[col_type][1])  
 
   spritesheet("spritesheet")
   set_default_pal()

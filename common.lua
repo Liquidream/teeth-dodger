@@ -15,6 +15,11 @@ NUM_TEETH = 7
 MHEIGHT_OPEN = 40
 MHEIGHT_CLOSED = 0
 MMAX_FRAMES = 200
+TITLE_LOGO_NORM_Y = 109
+TITLE_LOGO_SCORES_Y = 10
+TITLE_PROMPT_NORM_Y = 195
+TITLE_PROMPT_SCORES_Y = 220
+
 
 particle_cols={
   COL_BLOOD = {38,36,39},
@@ -69,7 +74,8 @@ sessionStartTime = love.timer.getTime()
 -- time progress was last "saved"
 lastSaveTime = nil
 -- global high score table
-globalHighScores = nil
+globalHighScores = nil  -- used for storage (keyed by username)
+orderedHighScore = nil  -- used for display (keyed by score position)
 
 -- Other state global vars
 levelReady = nil

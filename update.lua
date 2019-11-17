@@ -53,6 +53,28 @@ function update_game(dt)
       init_player()
       init_level()
     end
+    -- transition to highscore table?
+    if game_time%1200 == 300 then
+      log("TODO: switch to highscore...")
+      addTween(
+        tween.new(1, title, {logo_ypos = TITLE_LOGO_SCORES_Y}, 'outCirc')
+      )
+      addTween(
+        tween.new(1, title, {prompt_ypos = TITLE_PROMPT_SCORES_Y}, 'outCirc')
+      )
+      title.show_credit = false
+    end
+    -- transition back to normal title?
+    if game_time%1201 == 1200 then
+      log("TODO: switch to normal...")
+      addTween(
+        tween.new(1, title, {logo_ypos = TITLE_LOGO_NORM_Y}, 'outCirc')
+      )
+      addTween(
+        tween.new(1, title, {prompt_ypos = TITLE_PROMPT_NORM_Y}, 'outCirc')
+      )
+      title.show_credit = true
+    end
 
   ------------------------------
   -- game play
@@ -60,60 +82,47 @@ function update_game(dt)
   elseif gameState == GAME_STATE.LVL_PLAY then
     update_player(dt)
     game_time = game_time + 1
-    update_mouths(dt, false)
+    update_mouths(dt, false)      
   
   ------------------------------
-  -- level end
+  -- game over
   ------------------------------
-  elseif gameState == GAME_STATE.LVL_END then
-    -- update player animation
-    update_anim(player)
-    state_time = state_time + 1
-    if state_time > 100 then
-      -- is this the title screen?
-      if storage.currLevel == 1 then
-        storage.difficulty = player.y<60 and 0 or 1
-        log("storage.difficulty = "..tostring(storage.difficulty))        
-        -- set game mode (normal/reverse)      
-        storage.gameMode = player.y<30 and 1 or 0
-        log("storage.gameMode = "..storage.gameMode)
-      end
-      saveProgress()
-      levelUp()      
-    end
-
-  ------------------------------
-  -- completed game
-  ------------------------------
-  elseif gameState == GAME_STATE.COMPLETED then
-    if _t%5==0 then
-      makeParticles(rnd(GAME_WIDTH), rnd(GAME_HEIGHT), rnd(2)<1 and COL_FINISH or COL_PINK)
+  elseif gameState == GAME_STATE.GAME_OVER then
+    game_time = game_time + 1
+    update_mouths(dt, false)
+    -- wait for keypress/time-out...
+    if btnp(0) or btnp(0) or btnp(7) then
+     -- restart game
+     gameState = GAME_STATE.LVL_PLAY
+     init_player()
+     init_level()
+  
+    -- ...or been 10+ secs?
+    elseif game_time - gameEndTime > 10*60 then 
+      -- go back to title
+      init_title()
     end
   end
+
 end
 
 
 
 function update_mouths(dt, autozoom)
   -- update mouths/teeth
-  --log("Mouths ------")
   for i=1,3 do
     local mouth = mouths[i]
-  --for _,mouth in pairs(mouths) do
     
     if autozoom then
       -- constant zoom in
       mouth.level = mouth.level - 0.01
     end
-          
-    
-    -- open/close all but current mouth    
-    --if i == 1 then log("level="..mouth.level.."   mouth.lastLevel="..mouth.lastLevel) end
+              
+    -- open/close all but current mouth
 
     local inAutoOpenRange = mouth.level<=0.8 and mouth.lastLevel>=0.8
 
     if i == 1 and not inAutoOpenRange and not autozoom then
-      --log("mouth.frame="..mouth.frame)
       -- front mouth
       if mouth.frame == flr(300*speed_factor) then 
         addTween(
@@ -141,6 +150,7 @@ function update_mouths(dt, autozoom)
               tween.new(0.5*speed_factor, mouth, {openAmount = MHEIGHT_CLOSED}, 'outCirc')
             )
         end
+        --log("2) frm>"..mouths[2].frame)
         if mouth.frame == flr(150*speed_factor) then 
           addTween(
               tween.new(1*speed_factor, mouth, {openAmount = MHEIGHT_OPEN}, 'outBack')
@@ -156,7 +166,7 @@ function update_mouths(dt, autozoom)
       end
 
       mouth.frame = mouth.frame + 1
-      mouth.frame = mouth.frame % MMAX_FRAMES
+      mouth.frame = mouth.frame % flr(MMAX_FRAMES*speed_factor)
           
     end
 
@@ -168,10 +178,7 @@ function update_mouths(dt, autozoom)
       then
         -- check player position (e.g. in a gap?)
         if mouth.lowerTeeth[player.t_index].gap then
-          log("#mouths = "..#mouths)
-          log("#tweens = "..#tweens)
           -- player is safe
-          log("player safe")
           player.score = player.score + 1
           -- zoom into next mouth (using tweening!)
           for i=1,3 do
@@ -181,12 +188,12 @@ function update_mouths(dt, autozoom)
           end
           -- speed up
           speed_factor=speed_factor*0.99
+          --log("speed_factor = "..speed_factor)
           -- start the next mouth opening
           mouths[2].frame = flr(150*speed_factor)
           -- make sure we don't trip this code again
           mouth.zooming = true
         elseif not player.dead then
-          log("player dead")
           killPlayer()
         end
       end
@@ -200,9 +207,7 @@ function update_mouths(dt, autozoom)
 
   -- time to create new mouth?
   if mouths[1].level <= 0.25 then
-    -- kill old mouth
-    --mouths[1] = nil
-    -- shift other mouths up
+    -- first, shift other mouths up
     mouths[1] = mouths[2]
     mouths[1].origWidth = nil
     
@@ -217,7 +222,7 @@ end
 function killPlayer()
   player.dead = true
   player.lives = player.lives - 1
-  player.deathCount = (player.lives>0) and 100 or 200
+  player.deathCount = 100
   player.origDeathCount = player.deathCount
 
   -- create a new particle system
@@ -244,42 +249,10 @@ function killPlayer()
 
   pEmitter.gravity = 7  -- make more of explosion (slow mo)
 
-   -- Add to particle system
-   table.insert( pSystems, pEmitter )
+  -- Add to particle system
+  table.insert( pSystems, pEmitter )
 end
 
-function levelUp()  
-  -- init next level
-  storage.currLevel = storage.currLevel + 1  
-  if storage.currLevel <= MAX_LEVELS then        
-    -- start next level
-    init_level()
-  else
-    -- completed!
-    gameState = GAME_STATE.COMPLETED
-    -- Submit player's score (if better than prev)
-    submitHighScore()
-    -- unlock extra game mode
-    storage.reverseUnlocked = true
-    -- reset back to level 1 again (for next play)
-    resetPlayerProgress()    
-  end
-  -- Refresh Global saved data
-  -- (do it periodically, so scores up-to-date)
-  refreshGlobalHighScores()
-end
-
-
--- save player's progress
--- (time taken, lives lost)
-function saveProgress()
-  -- Update total player time
-  storage.currTime = storage.currTime + 
-   love.timer.getTime() - (lastSaveTime or sessionStartTime)   
-  -- save progress
-  storage.saveUserValues()
-  lastSaveTime = love.timer.getTime()  
-end
 
 -- submit player's time/deaths
 function submitHighScore()
@@ -287,26 +260,22 @@ function submitHighScore()
   local prevScore = globalHighScores[my_id]
   log("prevScore = "..tostring(prevScore))
   if not prevScore 
-   or storage.currTime+storage.currDeaths < 
-    (prevScore.time+(prevScore.deaths*10)) 
+   or player.score > prevScore.score
   then
-    log("currScore.time+deaths = "..storage.currTime+storage.currDeaths)
+    log("player.score = "..player.score)
     if prevScore then
-      log("prevScore.time+deaths = "..(prevScore.time+(prevScore.deaths*10)))
+      log("prevScore.score = "..prevScore.score)
     end
     -- Submit THIS score
     local newScore = {
-      time = storage.currTime,
-      deaths = storage.currDeaths,
+      score = player.score,
       name = my_name,
-      difficulty = storage.difficulty,
-      mode = storage.gameMode,
     }
     -- add/replace player's score
     globalHighScores[my_id] = newScore
-
+        
     -- save global changes
-    storage.setGlobalValue("globalHighScores-v2",globalHighScores)
+    storage.setGlobalValue("globalHighScores",globalHighScores)
   end
 end
 
@@ -347,12 +316,10 @@ function update_player(dt)
         respawn_player()
       else
         -- game over
-        player.deathCount = 1
-        -- wait for keypress
-        if btnp(0) or btnp(0) or btnp(7) then
-          -- show the title
-          init_title()
-        end
+        gameState = GAME_STATE.GAME_OVER
+        gameEndTime = game_time
+        -- Submit player's score (if better than prev)        
+        submitHighScore()        
       end
     end  
   end
@@ -385,30 +352,4 @@ function makeParticles(x, y, col)
   pEmitter.cols = particle_cols[col] --{47,35,26,30} 
 
   table.insert( pSystems, pEmitter )
-end
-
-
--- step through (and loop) animations
-function update_anim(anim_obj)
-  -- check for anim
-  if anim_obj.curr_anim then
-    -- update anim delay
-    anim_obj.frame_count = anim_obj.frame_count + 1
-    -- time for next frame yet?
-    if anim_obj.frame_count > anim_obj.frame_delay then
-      -- move to next frame
-      anim_obj.frame_pos = anim_obj.frame_pos + 1
-      anim_obj.frame_count = 0
-      -- have we reached the end of anim?
-      if anim_obj.frame_pos > #anim_obj.curr_anim then
-        -- should we run a function?
-        if anim_obj.func_on_finish then
-          anim_obj.func_on_finish(anim_obj)
-        else
-          -- loop back to the start
-          anim_obj.frame_pos = 1
-        end
-      end
-    end
-  end
 end
