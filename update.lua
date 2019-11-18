@@ -292,12 +292,14 @@ function update_player(dt)
     -- left
     if btnp(0)
      or (mousePressed and mx < GAME_WIDTH/2) then
-      player.t_index = max(player.t_index-1, 1)      
+      player.t_index = max(player.t_index-1, 1)
+      Sounds.jump:play()
     end
     -- right
     if btnp(1) 
      or (mousePressed and mx >GAME_WIDTH/2)then         
       player.t_index = min(player.t_index+1, NUM_TEETH+1)
+      Sounds.jump:play()
     end    
   end
 
