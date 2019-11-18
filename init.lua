@@ -40,6 +40,10 @@ function init_title()
 
   -- Get Global saved data
   refreshGlobalHighScores()
+  
+  -- start playing the music
+  Sounds.music:seek(4,"seconds")
+  Sounds.music:play()
 end
 
 function createMouth(num)
@@ -252,30 +256,35 @@ function restart_player()
 end
 
 function init_sounds()
-  -- Sounds.music = Sound:new('music.mp3', 1)
-  -- Sounds.music:setVolume(0.7)
-  -- Sounds.music:setLooping(true)
+  Sounds.music = Sound:new('ambience.mp3', 1)
+  Sounds.music:setVolume(0.75)
+  Sounds.music:setLooping(true)
 
-  -- Sounds.step = Sound:new('step.mp3', 3)
-  -- Sounds.step:setVolume(0.25)
+  Sounds.chomps = {}
+  Sounds.chomps[1] = Sound:new('chomp.mp3', 3)
+  Sounds.chomps[1]:setVolume(0.75)
+  Sounds.chomps[2] = Sound:new('chomp.mp3', 3)
+  Sounds.chomps[2]:setVolume(0.5)
+  Sounds.chomps[3] = Sound:new('chomp.mp3', 3)
+  Sounds.chomps[3]:setVolume(0.25)
 
-  -- -- Sounds.fall = Sound:new('fall.mp3', 3)
-  -- -- Sounds.fall:setVolume(0.5)
-
-  -- Sounds.flickerHigh = Sound:new('flicker_high.mp3', 1)
-  -- Sounds.flickerHigh:setVolume(0.7)
-
-  -- Sounds.flickerLow = Sound:new('flicker_low.mp3', 1)
-  -- Sounds.flickerLow:setVolume(0.7)
-
-  -- Sounds.splash = Sound:new('splash.mp3', 1)
-  -- Sounds.splash:setVolume(0.7)
-
-  -- Sounds.startLevel = Sound:new('start_level.mp3', 3)
-  -- Sounds.startLevel:setVolume(0.7)
+  Sounds.jump = Sound:new('jump.mp3', 3)
+  Sounds.jump:setVolume(0.5)
   
-  -- Sounds.collect = Sound:new('collect.mp3', 3)
-  -- Sounds.collect:setVolume(0.7)
+    Sounds.success = Sound:new('success.mp3', 3)
+    Sounds.success:setVolume(0.25)
+
+  Sounds.death = Sound:new('death.mp3', 3)
+  Sounds.death:setVolume(1.0)
+
+  Sounds.gameover = Sound:new('gameover.mp3', 3)
+  Sounds.gameover:setVolume(1.0)
+  
+  Sounds.roars = {}
+  Sounds.roars[1] = Sound:new('roar.mp3', 3)
+  Sounds.roars[1]:setVolume(0.5)
+  Sounds.roars[2] = Sound:new('roar2.mp3', 3)
+  Sounds.roars[2]:setVolume(0.5)
 end
 
 function load_assets()
