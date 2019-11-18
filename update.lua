@@ -178,21 +178,7 @@ function update_mouths(dt, autozoom)
       then
         -- check player position (e.g. in a gap?)
         if mouth.lowerTeeth[player.t_index].gap then
-          -- player is safe
-          player.score = player.score + 1
-          -- zoom into next mouth (using tweening!)
-          for i=1,3 do
-            addTween(
-              tween.new(2*speed_factor,  mouths[i], {level= mouths[i].level-1}, 'inOutQuad')
-            )
-          end
-          -- speed up
-          speed_factor=speed_factor*0.99
-          --log("speed_factor = "..speed_factor)
-          -- start the next mouth opening
-          mouths[2].frame = flr(150*speed_factor)
-          -- make sure we don't trip this code again
-          mouth.zooming = true
+          levelUp()
         elseif not player.dead then
           killPlayer()
         end
@@ -200,8 +186,20 @@ function update_mouths(dt, autozoom)
 
     end
 
+    -- play chomp sound?
+    if mouth.openAmount == MHEIGHT_CLOSED
+     and mouth.lastOpenAmount ~= mouth.openAmount then
+      -- chomp!
+      Sounds.chomps[i]:play()
+    end
+    -- play monster groan?
+    if irnd(1000)<1 then
+      Sounds.roars[irnd(2)+1]:play()
+    end
+
     -- remember...
     mouth.lastLevel = mouth.level
+    mouth.lastOpenAmount = mouth.openAmount
 
   end -- end loop mouths
 
@@ -217,6 +215,26 @@ function update_mouths(dt, autozoom)
     -- create a new mouth
     mouths[3] = createMouth(3)
   end
+end
+
+function levelUp()
+  -- player is safe
+  player.score = player.score + 1
+  -- zoom into next mouth (using tweening!)
+  for i=1,3 do
+    addTween(
+      tween.new(2*speed_factor,  mouths[i], {level= mouths[i].level-1}, 'inOutQuad')
+    )
+  end
+  -- speed up
+  speed_factor=speed_factor*0.99
+  --log("speed_factor = "..speed_factor)
+  -- start the next mouth opening
+  mouths[2].frame = flr(150*speed_factor)
+  -- make sure we don't trip this code again
+  mouths[1].zooming = true
+  -- play sound
+  Sounds.success:play()
 end
 
 function killPlayer()
@@ -251,6 +269,9 @@ function killPlayer()
 
   -- Add to particle system
   table.insert( pSystems, pEmitter )
+
+  -- play sound
+  Sounds.death:play()
 end
 
 

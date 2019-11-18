@@ -42,6 +42,7 @@ function init_title()
   refreshGlobalHighScores()
   
   -- start playing the music
+  Sounds.music:seek(4,"seconds")
   Sounds.music:play()
 end
 
@@ -256,19 +257,27 @@ end
 
 function init_sounds()
   Sounds.music = Sound:new('ambience.mp3', 1)
-  Sounds.music:setVolume(0.7)
+  Sounds.music:setVolume(0.75)
   Sounds.music:setLooping(true)
 
+  Sounds.chomps = {}
+  Sounds.chomps[1] = Sound:new('chomp.mp3', 3)
+  Sounds.chomps[1]:setVolume(0.75)
+  Sounds.chomps[2] = Sound:new('chomp.mp3', 3)
+  Sounds.chomps[2]:setVolume(0.5)
+  Sounds.chomps[3] = Sound:new('chomp.mp3', 3)
+  Sounds.chomps[3]:setVolume(0.25)
+
   Sounds.jump = Sound:new('jump.mp3', 3)
-  Sounds.jump:setVolume(0.25)
+  Sounds.jump:setVolume(0.5)
 
   Sounds.death = Sound:new('death.mp3', 3)
-  Sounds.death:setVolume(0.5)
+  Sounds.death:setVolume(1.0)
 
   Sounds.success = Sound:new('success.mp3', 3)
-  Sounds.success:setVolume(0.5)
+  Sounds.success:setVolume(0.25)
 
-  Sounds.roars={}
+  Sounds.roars = {}
   Sounds.roars[1] = Sound:new('roar.mp3', 3)
   Sounds.roars[1]:setVolume(0.5)
   Sounds.roars[2] = Sound:new('roar2.mp3', 3)
