@@ -272,6 +272,9 @@ function killPlayer()
 
   -- play sound
   Sounds.death:play()
+  if player.lives == 0 then
+    Sounds.gameover:play()
+  end
 end
 
 

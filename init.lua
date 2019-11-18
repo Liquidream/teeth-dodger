@@ -270,13 +270,16 @@ function init_sounds()
 
   Sounds.jump = Sound:new('jump.mp3', 3)
   Sounds.jump:setVolume(0.5)
+  
+    Sounds.success = Sound:new('success.mp3', 3)
+    Sounds.success:setVolume(0.25)
 
   Sounds.death = Sound:new('death.mp3', 3)
   Sounds.death:setVolume(1.0)
 
-  Sounds.success = Sound:new('success.mp3', 3)
-  Sounds.success:setVolume(0.25)
-
+  Sounds.gameover = Sound:new('gameover.mp3', 3)
+  Sounds.gameover:setVolume(1.0)
+  
   Sounds.roars = {}
   Sounds.roars[1] = Sound:new('roar.mp3', 3)
   Sounds.roars[1]:setVolume(0.5)
