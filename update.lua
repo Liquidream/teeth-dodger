@@ -54,7 +54,7 @@ function update_game(dt)
       init_level()
     end
     -- transition to highscore table?
-    if game_time%1200 == 300 then
+    if game_time%1200 == 100 then
       log("TODO: switch to highscore...")
       addTween(
         tween.new(1, title, {logo_ypos = TITLE_LOGO_SCORES_Y}, 'outCirc')
@@ -65,7 +65,7 @@ function update_game(dt)
       title.show_credit = false
     end
     -- transition back to normal title?
-    if game_time%1201 == 1200 then
+    if game_time%1201 == 1000 then
       log("TODO: switch to normal...")
       addTween(
         tween.new(1, title, {logo_ypos = TITLE_LOGO_NORM_Y}, 'outCirc')

@@ -6,6 +6,7 @@ pSystems = {} -- all particle systems
 tweens = {}
 title = {}
 mouthCount=1
+gameEndTime=0
 -- last mouth reached before lost a life (for continue)
 scoreBeforeLostLife = 0
 

@@ -52,18 +52,9 @@ function draw_game()
     spritesheet("spritesheet")
 
     -- high score table?
-    if game_time%1200 > 350 then
-      local scoreTime = game_time%1200-350
-      pprint("MOST MOUTHS", 175,75, 35,4)
-      use_font("small-font")
-      for i=1,10 do
-        local scoreData = title.orderedHighScores[i]
-        local scoreYPos = 90+(i*12)
-        if scoreData then
-          pprint(scoreData.score, 195, scoreYPos, 47,4)
-          pprint(string.upper(scoreData.name), 235, scoreYPos, 47,4)
-        end
-      end
+    local scoreTime = game_time%1200
+    if scoreTime > 150 and scoreTime < 950 then
+      draw_highscore()
     end
 
     --if title.show_credit then
@@ -79,7 +70,13 @@ function draw_game()
     pprint("LIVES: "..player.lives, 390,-5, 9,4)
 
     if player.lives == 0 then
-      pprint("GAME OVER", 195,120, 35,4)
+      
+      if gameState == GAME_STATE.GAME_OVER 
+       and game_time - gameEndTime > 4*60 then
+        draw_highscore()
+      else
+        pprint("GAME OVER", 195,120, 35,4)
+      end
 
       use_font("main-font") 
       if (_t%100 < 50) then
@@ -96,6 +93,19 @@ function draw_game()
     end
   end
 
+end
+
+function draw_highscore()
+  pprint("MOST MOUTHS", 175,75, 35,4)
+  use_font("small-font")
+  for i=1,10 do
+    local scoreData = title.orderedHighScores[i]
+    local scoreYPos = 90+(i*12)
+    if scoreData then
+      pprint(scoreData.score, 195, scoreYPos, 47,4)
+      pprint(string.upper(scoreData.name), 235, scoreYPos, 47,4)
+    end
+  end
 end
 
 function draw_level()
