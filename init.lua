@@ -6,7 +6,8 @@ pSystems = {} -- all particle systems
 tweens = {}
 title = {}
 mouthCount=1
-
+-- last mouth reached before lost a life (for continue)
+scoreBeforeLostLife = 0
 
 -- locals
 local Sounds = require 'sounds'
@@ -48,6 +49,7 @@ end
 
 function createMouth(num)
   srand(mouthCount)
+  mouthTypeCount = mouthCount
 
   local widths={48,32,16}
 
@@ -58,7 +60,7 @@ function createMouth(num)
     upperTeeth = {},
     lowerTeeth = {},
     col_type = mouthType,
-    frame = (num==1) and 0 or irnd(MMAX_FRAMES),
+    frame = irnd(MMAX_FRAMES),
     dir = 1 -- mouth open close direction
   }
   -- generate UPPER teeth  
@@ -222,7 +224,7 @@ function init_level()
   -- reset game time
   game_time = 0
   state_time = 0
-  mouthCount=1
+  mouthCount = scoreBeforeLostLife + 1  --1
   speed_factor=0.8
 
   -- create the initial set of mouths/teeth
@@ -232,8 +234,8 @@ function init_level()
     mouths[i] = newMouth
   end
 
-  -- Sounds.startLevel:play()
-  -- Sounds.music:play()
+  -- set first mouth to stay open a long time
+  mouths[1].frame = 0
 
   log("init_level done.")
 end
@@ -245,10 +247,9 @@ function init_player()
     y = 30,
     lives = 3,
     size = 32,
-    score = 0,
-    moveCount = 0, -- number of moves player has made
+    score = scoreBeforeLostLife, -- either 0 or last mouth before lost a life
     dead = false,
-    deathCount = 0
+    deathCount = 0,
   }
 end
 

@@ -219,6 +219,10 @@ end
 function levelUp()
   -- player is safe
   player.score = player.score + 1
+  -- remember for "continue" (only if no lives lost)
+  if player.lives == 3 then
+    scoreBeforeLostLife = scoreBeforeLostLife + 1
+  end
   -- zoom into next mouth (using tweening!)
   for i=1,3 do
     addTween(
@@ -326,7 +330,6 @@ function update_player(dt)
     end    
     -- chomp!😬
     if btnp(4) then
-      log("chomp!")
       -- skip waiting and chomp now!
       mouths[1].frame = flr(300*speed_factor)
     end
