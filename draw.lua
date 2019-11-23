@@ -45,7 +45,6 @@ function draw_game()
     if (_t%100 < 50) then
       pprint("PRESS   OR   TO START", 105, title.prompt_ypos, 9,4)
       spritesheet("keys")
-      --spr (s, x, y, a, [w = 1, h = 1, [anchor_x = 0.5, anchor_y = 0.5, [scale_x, scale_y]]]
       aspr(0, 188, title.prompt_ypos+5, 1,1,1,0,0, 2,2)
       aspr(1, 258, title.prompt_ypos+5, 1,1,1,0,0, 2,2)
     end
@@ -84,7 +83,10 @@ function draw_game()
 
       use_font("main-font") 
       if (_t%100 < 50) then
-        pprint("PRESS L OR R TO RESTART", 105, title.prompt_ypos, 9,4)
+        pprint("PRESS   OR   TO START", 105, title.prompt_ypos, 9,4)
+        spritesheet("keys")
+        aspr(0, 188, title.prompt_ypos+5, 1,1,1,0,0, 2,2)
+        aspr(1, 258, title.prompt_ypos+5, 1,1,1,0,0, 2,2)
       end
       
       --if (_t%100 < 50) then

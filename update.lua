@@ -48,7 +48,7 @@ function update_game(dt)
     game_time = game_time + 1
     update_mouths(dt, true)
     -- check for press
-    if btnp(0) or btnp(0) or btnp(7) then
+    if btnp(0) or btnp(0) or btnp(7) or btnp(4) then
       gameState = GAME_STATE.LVL_PLAY
       init_player()
       init_level()
@@ -150,7 +150,6 @@ function update_mouths(dt, autozoom)
               tween.new(0.5*speed_factor, mouth, {openAmount = MHEIGHT_CLOSED}, 'outCirc')
             )
         end
-        --log("2) frm>"..mouths[2].frame)
         if mouth.frame == flr(150*speed_factor) then 
           addTween(
               tween.new(1*speed_factor, mouth, {openAmount = MHEIGHT_OPEN}, 'outBack')
@@ -325,6 +324,12 @@ function update_player(dt)
       player.t_index = min(player.t_index+1, NUM_TEETH+1)
       Sounds.jump:play()
     end    
+    -- chomp!😬
+    if btnp(4) then
+      log("chomp!")
+      -- skip waiting and chomp now!
+      mouths[1].frame = flr(300*speed_factor)
+    end
   end
 
   -- update death count (if there)

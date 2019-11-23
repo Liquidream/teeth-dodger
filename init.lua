@@ -208,7 +208,8 @@ function init_input()
   register_btn(3, 0, {input_id("keyboard", "down"),
                       input_id("keyboard", "s"),
                       input_id("controller_button", "dpdown")})
-
+  register_btn(4, 0, {input_id("keyboard", "space"),
+                      input_id("controller_button", "x")})
   -- mouse input
   register_btn(5,  0, input_id("mouse_position", "x"))
   register_btn(6,  0, input_id("mouse_position", "y"))
