@@ -38,14 +38,20 @@ function draw_game()
     palt(0,false)
     palt(35,true)
     spr_sheet("title", 90, title.logo_ypos) 
-    palt()
+    set_default_pal()
     
     -- title 
     use_font("main-font") 
     if (_t%100 < 50) then
-      pprint("PRESS L OR R TO START", 105, title.prompt_ypos, 9,4)
+      pprint("PRESS   OR   TO START", 105, title.prompt_ypos, 9,4)
+      spritesheet("keys")
+      --spr (s, x, y, a, [w = 1, h = 1, [anchor_x = 0.5, anchor_y = 0.5, [scale_x, scale_y]]]
+      aspr(0, 188, title.prompt_ypos+5, 1,1,1,0,0, 2,2)
+      aspr(1, 258, title.prompt_ypos+5, 1,1,1,0,0, 2,2)
     end
     
+    spritesheet("spritesheet")
+
     -- high score table?
     if game_time%1200 > 350 then
       local scoreTime = game_time%1200-350

@@ -289,6 +289,7 @@ end
 
 function load_assets()
   -- load gfx
+  load_png("keys", "assets/keys.png", ak54, true)
   load_png("spritesheet", "assets/spritesheet.png", ak54, true)
   spritesheet_grid(16,16)
     
